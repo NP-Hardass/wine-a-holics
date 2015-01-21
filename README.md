@@ -6,9 +6,9 @@ Packages
 
 This is a list of packages and any associated notes:
 
-| Package				| Description								| Notes										|
-| ------------------------------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| [[app-emulation/wine]]			| Free implementation of Windows(tm) on Unix				| Originally copied from Gentoo, dependency fixes, bug fixes, wine-staging support, and a functioning live ebuild	|
+| Package					| Description					| Notes															|
+| --------------------------------------------- | --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| [app-emulation/wine]$(app-emulation/wine)	| Free implementation of Windows(tm) on Unix	| Originally copied from Gentoo, dependency fixes, bug fixes, wine-staging support, and a functioning live ebuild	|
 
 Installation
 ------------
