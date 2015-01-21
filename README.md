@@ -6,9 +6,9 @@ Packages
 ---
 This is a list of packages and any associated notes:
 
-| Package		| Description					| Notes															|
-| ---------------------	| ---------------------------------------------	| ---------------------------------------------------------------------------------------------------------------------	|
-| app-emulation/wine	| Free implementation of Windows(tm) on Unix	| Originally copied from Gentoo, Dependency fixes, bug fixes, better wine-staging support, fully functional live ebuild	|
+| Package			| Description					| Notes															|
+| -----------------------------	| ---------------------------------------------	| ---------------------------------------------------------------------------------------------------------------------	|
+| [[app-emulation/wine]]	| Free implementation of Windows(tm) on Unix	| Originally copied from Gentoo, Dependency fixes, bug fixes, better wine-staging support, fully functional live ebuild	|
 ---
 
 Installation
@@ -21,7 +21,6 @@ If you haven’t used layman yet, just run these commands:
 	# emerge -av layman
 	# echo "source /var/lib/layman/make.conf" >> /etc/make.conf
 	# layman -f
-
 
 Then you can add this overlay wih:
 
