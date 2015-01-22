@@ -10,5 +10,6 @@
 		<name>NP-Hardass</name>
 	</owner>
 	<source type="git">git://github.com/NP-Hardass/wine-overlay.git</source>
+	<source type="git">https://github.com/NP-Hardass/wine-overlay.git</source>
 </repo>
 </repositories>
