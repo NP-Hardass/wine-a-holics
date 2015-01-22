@@ -1,6 +1,17 @@
 Welcome to the Unofficial Wine Overlay!
 =======================================
 
+Goals
+-----
+This overlay strives to provide bleeding edge Wine and Wine related ebuilds,
+hopefully with them being accepted into the main Gentoo tree.  Additionally,
+we aim to improve ebuild quality, squash bugs, and implement a slotted Wine
+(exclusive for this overlay) that will enable users to use multiple
+versions of Wine, with and without Wine-Staging, at the same time.  We know
+that Wine sometimes includes regressions from version to version, so the
+the goal there is to allow you to switch and use whatever version(s) that
+your applications need.
+
 Packages
 --------
 
