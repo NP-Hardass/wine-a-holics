@@ -1,0 +1,5 @@
+*winetricks-20141130 (22 Jan 2015)
+
+  22 Jan 2015; NP-Hardass <np.hardass@gmail.com> +metadata.xml,
+  +winetricks-20141130.ebuild:
+  Import from Gentoo, version bump to 20141130
