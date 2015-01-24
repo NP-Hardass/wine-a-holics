@@ -21,6 +21,7 @@ This is a list of packages and any associated notes:
 | ----------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
 | [app-emulation/wine](app-emulation/wine)		| Free implementation of Windows(tm) on Unix				| Originally copied from Gentoo, dependency fixes, bug fixes, wine-staging support, and a functioning live ebuild	|
 | [app-emulation/winetricks](app-emulation/winetricks)	| Easy way to install DLLs needed to work around problems in Wine	| Originally copied from Gentoo, version bump										|
+| [media-libs/mesa](media-libs/mesa)			| OpenGL-like graphic library for Linux					| Originally copied from x11 overlay, live, includes d3d9, stripped all keywords except amd64 and x86			|
 
 Installation
 ------------
