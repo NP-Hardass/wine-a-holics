@@ -27,6 +27,8 @@ GV="2.34"
 MV="4.5.4"
 STAGING_P="wine-staging-${PV}"
 STAGING_DIR="${WORKDIR}/${STAGING_P}"
+D3D9_P="wine-d3d9-${PV}"
+D3D9_DIR="${WORKDIR}/wine-d3d9-patches-${D3D9_P}"
 WINE_GENTOO="wine-gentoo-2013.06.24"
 DESCRIPTION="Free implementation of Windows(tm) on Unix"
 HOMEPAGE="http://www.winehq.org/"
@@ -40,15 +42,17 @@ SRC_URI="${SRC_URI}
 
 if [[ ${PV} == "9999" ]] ; then
 	STAGING_EGIT_REPO_URI="git://github.com/wine-compholio/wine-staging.git"
+	D3D9_EGIT_REPO_URI="git://github.com/NP-Hardass/wine-d3d9-patches.git"
 else
 	SRC_URI="${SRC_URI}
 	staging? ( https://github.com/wine-compholio/wine-staging/archive/v${PV}.tar.gz -> ${STAGING_P}.tar.gz )
-	pulseaudio? ( https://github.com/wine-compholio/wine-staging/archive/v${PV}.tar.gz -> ${STAGING_P}.tar.gz )"
+	pulseaudio? ( https://github.com/wine-compholio/wine-staging/archive/v${PV}.tar.gz -> ${STAGING_P}.tar.gz )
+	d3d9? ( https://github.com/NP-Hardass/wine-d3d9-patches/archive/wine-d3d9-${PV}.tar.gz -> ${D3D9_P}.tar.gz )"
 fi
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-IUSE="+abi_x86_32 +abi_x86_64 +alsa capi cups custom-cflags dos elibc_glibc +fontconfig +gecko gphoto2 gsm gstreamer +jpeg lcms ldap +mono mp3 ncurses netapi nls odbc openal opencl +opengl osmesa oss +perl pcap pipelight +png +prelink pulseaudio +realtime +run-exes s3tc samba scanner selinux +ssl staging test +threads +truetype +udisks v4l +X xcomposite xinerama +xml"
+IUSE="+abi_x86_32 +abi_x86_64 +alsa capi cups custom-cflags d3d9 dos elibc_glibc +fontconfig +gecko gphoto2 gsm gstreamer +jpeg lcms ldap +mono mp3 ncurses netapi nls odbc openal opencl +opengl osmesa oss +perl pcap pipelight +png +prelink pulseaudio +realtime +run-exes s3tc samba scanner selinux +ssl staging test +threads +truetype +udisks v4l +X xcomposite xinerama +xml"
 REQUIRED_USE="|| ( abi_x86_32 abi_x86_64 )
 	test? ( abi_x86_32 )
 	elibc_glibc? ( threads )
@@ -65,6 +69,7 @@ RESTRICT="test"
 COMMON_DEPEND="
 	truetype? ( >=media-libs/freetype-2.0.0[${MULTILIB_USEDEP}] )
 	capi? ( net-dialup/capi4k-utils )
+	d3d9? ( media-libs/mesa[d3d9,${MULTILIB_USEDEP}] )
 	ncurses? ( >=sys-libs/ncurses-5.2:=[${MULTILIB_USEDEP}] )
 	udisks? ( sys-apps/dbus[${MULTILIB_USEDEP}] )
 	fontconfig? ( media-libs/fontconfig:=[${MULTILIB_USEDEP}] )
@@ -189,9 +194,15 @@ src_unpack() {
 			unset ${PN}_LIVE_REPO;
 			EGIT_CHECKOUT_DIR=${STAGING_DIR} git-r3_src_unpack
 		fi
+		if use d3d9; then
+			EGIT_REPO_URI=${D3D9_EGIT_REPO_URI}
+			unset ${PN}_LIVE_REPO;
+			EGIT_CHECKOUT_DIR=${D3D9_DIR} git-r3_src_unpack
+		fi
 	else
 		unpack ${MY_P}.tar.bz2
 		use staging || use pulseaudio && unpack "${STAGING_P}.tar.gz"
+		use d3d9 && unpack "${D3D9_P}.tar.gz"
 	fi
 
 	unpack "${WINE_GENTOO}.tar.bz2"
@@ -238,6 +249,9 @@ src_prepare() {
 		eend $?
 	elif use pulseaudio; then
 		PATCHES+=( "${STAGING_DIR}/patches/winepulse-PulseAudio_Support"/*.patch )
+	fi
+	if use d3d9; then
+		PATCHES+=( "${D3D9_DIR}/wine-d3d9.patch" )
 	fi
 	autotools-utils_src_prepare
 
@@ -309,6 +323,7 @@ multilib_src_configure() {
 		--with-xattr
 		$(use_with s3tc txc_dxtn)
 	)
+	use d3d9 && myconf+=( $(use_with d3d9 d3dadapter) )
 
 	local PKG_CONFIG AR RANLIB
 	# Avoid crossdev's i686-pc-linux-gnu-pkg-config if building wine32 on amd64; #472038
