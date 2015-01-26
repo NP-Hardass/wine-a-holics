@@ -2,8 +2,8 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<maintainer>
-		<email>np.hardass@gmail.com</email>
-		<name>NP-Hardass</name>
+		<email>gentoo-wine@eroen.eu</email>
+		<name>eroen</name>
 	</maintainer>
 <longdescription>
 Wine is an Open Source implementation of the Windows API on top of X and Unix.
@@ -16,6 +16,7 @@ Think of Wine as a compatibility layer for running Windows programs. Wine does n
 	<flag name='dos'>Pull in <pkg>games-emulation/dosbox</pkg> to run DOS applications</flag>
 	<flag name='gecko'>Add support for the Gecko engine when using iexplore</flag>
 	<flag name='mono'>Add support for .NET using Wine's Mono add-on</flag>
+	<flag name='multislot'>Allow concurrent installation of multiple versions/variants</flag>
 	<flag name='netapi'>Use libnetapi from <pkg>net-fs/samba</pkg> to support Windows networks in netapi32.dll</flag>
 	<flag name='opencl'>Enable OpenCL support</flag>
 	<flag name='osmesa'>Add support for OpenGL in bitmaps using libOSMesa</flag>

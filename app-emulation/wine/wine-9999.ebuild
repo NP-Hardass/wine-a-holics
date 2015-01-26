@@ -19,7 +19,7 @@ if [[ ${PV} == "9999" ]] ; then
 else
 	MY_P="${PN}-${PV/_/-}"
 	SRC_URI="mirror://sourceforge/${PN}/Source/${MY_P}.tar.bz2"
-	KEYWORDS="-* ~amd64 ~x86 ~x86-fbsd"
+	KEYWORDS="-* ~amd64" # ~x86 ~x86-fbsd
 	S=${WORKDIR}/${MY_P}
 fi
 
@@ -48,7 +48,7 @@ fi
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-IUSE="+abi_x86_32 +abi_x86_64 +alsa capi cups custom-cflags dos elibc_glibc +fontconfig +gecko gphoto2 gsm gstreamer +jpeg lcms ldap +mono mp3 ncurses netapi nls odbc openal opencl +opengl osmesa oss +perl pcap pipelight +png +prelink pulseaudio +realtime +run-exes s3tc samba scanner selinux +ssl staging test +threads +truetype +udisks v4l +X xcomposite xinerama +xml"
+IUSE="+abi_x86_32 +abi_x86_64 +alsa capi cups custom-cflags dos elibc_glibc +fontconfig +gecko gphoto2 gsm gstreamer +jpeg lcms ldap +mono mp3 multislot ncurses netapi nls odbc openal opencl +opengl osmesa oss +perl pcap pipelight +png +prelink pulseaudio +realtime +run-exes s3tc samba scanner selinux +ssl staging test +threads +truetype +udisks v4l +X xcomposite xinerama +xml"
 REQUIRED_USE="|| ( abi_x86_32 abi_x86_64 )
 	test? ( abi_x86_32 )
 	elibc_glibc? ( threads )
@@ -246,6 +246,14 @@ COMMON_DEPEND="
 	)"
 
 RDEPEND="${COMMON_DEPEND}
+	multislot? (
+		app-emulation/wine-desktop-common
+		app-admin/eselect-wine
+	)
+	!multislot? (
+		!app-emulation/wine-desktop-common
+		!!app-admin/eselect-wine
+	)
 	dos? ( games-emulation/dosbox )
 	perl? ( dev-lang/perl dev-perl/XML-Simple )
 	samba? ( >=net-fs/samba-3.0.25 )
@@ -296,9 +304,16 @@ pkg_pretend() {
 }
 
 pkg_setup() {
+	if use multislot; then
+		WINE_VARIANT=generic-$PV
+		MY_PREFIX=/usr/lib/wine-${WINE_VARIANT}
+		MY_DATADIR=${MY_PREFIX}
+		MY_MANDIR="${MY_DATADIR}"/man
+	else
 	MY_PREFIX=/usr
 	MY_DATADIR=/usr/share
 	MY_MANDIR=/usr/share/man
+	fi
 
 	wine_build_environment_check || die
 }
@@ -367,6 +382,11 @@ src_prepare() {
 	sed -i '/^UPDATE_DESKTOP_DATABASE/s:=.*:=true:' tools/Makefile.in || die
 	if ! use run-exes; then
 		sed -i '/^MimeType/d' tools/wine.desktop || die #117785
+	fi
+
+	if use multislot; then
+		sed -e "/^Exec=/s/wine /wine-${WINE_VARIANT} /" \
+			-i tools/wine.desktop || die
 	fi
 
 	# hi-res default icon, #472990, http://bugs.winehq.org/show_bug.cgi?id=24652
@@ -477,7 +497,9 @@ multilib_src_install_all() {
 	einstalldocs
 	prune_libtool_files --all
 
+	if ! use multislot; then
 	emake -C "../${WINE_GENTOO}" install DESTDIR="${D}" EPREFIX="${EPREFIX}"
+	fi
 	if use gecko ; then
 		insinto "${MY_DATADIR}"/wine/gecko
 		use abi_x86_32 && doins "${DISTDIR}"/wine_gecko-${GV}-x86.msi
@@ -499,6 +521,12 @@ multilib_src_install_all() {
 		dosym "${MY_PREFIX}"/bin/wine{64,}-preloader
 	fi
 
+	if use multislot; then
+		for b in "${D%/}${MY_PREFIX}"/bin/*; do
+			make_wrapper ${b##*/}-${WINE_VARIANT} "${MY_PREFIX}"/bin/${b##*/}
+		done
+	fi
+
 	# respect LINGUAS when installing man pages, #469418
 	for l in de fr pl; do
 		use linguas_${l} || rm -r "${D%/}${MY_MANDIR}"/${l}*
@@ -510,11 +538,19 @@ pkg_preinst() {
 }
 
 pkg_postinst() {
+	if use multislot; then
+		eselect wine update --if-unset
+	else
 	gnome2_icon_cache_update
+	fi
 	fdo-mime_desktop_database_update
 }
 
 pkg_postrm() {
+	if use multislot; then
+		eselect wine update --if-unset
+	else
 	gnome2_icon_cache_update
+	fi
 	fdo-mime_desktop_database_update
 }
