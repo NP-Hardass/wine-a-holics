@@ -4,12 +4,12 @@
 
 *eselect-wine-0.3_rc2 (26 Jan 2015)
 
-  26 Jan 2015; <eroen@gentoo.org> +eselect-wine-0.3_rc2.ebuild, metadata.xml:
+  26 Jan 2015; <gentoo-wine@eroen.eu> +eselect-wine-0.3_rc2.ebuild, metadata.xml:
   New RC. Unset all variants when uninstalled.
 
 *eselect-wine-0.3_rc1 (23 Jan 2015)
 
-  23 Jan 2015; <eroen@gentoo.org> +eselect-wine-0.3_rc1.ebuild, +metadata.xml:
+  23 Jan 2015; <gentoo-wine@eroen.eu> +eselect-wine-0.3_rc1.ebuild, +metadata.xml:
   Add eselect wine module for switching between parallel installed wine
   versions
 
