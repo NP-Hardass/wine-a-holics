@@ -1,0 +1,11 @@
+# ChangeLog for app-emulation/wine-desktop-common
+# Copyright 1999-2015 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*wine-desktop-common-2013.06.24 (26 Jan 2015)
+
+  26 Jan 2015; gentoo-wine@eroen.eu +wine-desktop-common-2013.06.24.ebuild,
+  +metadata.xml:
+  New package. Installs the desktop menu entries and icons for wine packaged by
+  Gentoo. These files seem to originate from either Ubuntu or Fedora.
+
