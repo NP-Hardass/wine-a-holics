@@ -48,3 +48,25 @@ To delete the overlay:
 To sync the overlay via eix:
 
 	# eix-sync
+
+Branches
+--------
+This overlay provides several branches for experimental features and
+features in development.  Many of these features are described in
+[Goals](#Goals). To take advantage of these branches, simply change
+directory to the overlay, and checkout the new branch.  Layman will
+continue to use this branch until you opt to switch back.
+
+Branches that users are likely to be interested in are:
+* `d3d9` for Gallium Nine Direct3D9 support
+* `slotted_wine` for Wine with support for multislot
+
+To switch to a branch called BRANCH:
+
+	# cd /var/lib/layman/wine-overlay
+	# git checkout BRANCH
+
+To switch back to the default branch:
+	
+	# cd /var/lib/layman/wine-overlay
+	# git checkout master
