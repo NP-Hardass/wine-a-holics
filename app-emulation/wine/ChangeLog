@@ -2,6 +2,12 @@
 # Copyright 1999-2015 Gentoo Foundation; Distributed under the GPL v2
 # $Header: /var/cvsroot/gentoo-x86/app-emulation/wine/ChangeLog,v 1.524 2014/12/16 15:06:28 pacho Exp $
 
+  26 Jan 2015; NP-Hardass <np.hardass@gmail.com> wine-1.7.34.ebuild,
+  wine-9999.ebuild:
+  Revert wine to use old dependency code, because new dependency code doesn't
+  work well with emul-linux packages See: Issue #1 Thanks to Aliekezhi for
+  pointing it out.
+
 *wine-1.7.35 (24 Jan 2015)
 
   24 Jan 2015; NP-Hardass <np.hardass@gmail.com> +wine-1.7.35.ebuild:
