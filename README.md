@@ -19,8 +19,10 @@ This is a list of packages and any associated notes:
 
 | Package						| Description								| Notes															|
 | ----------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| [app-admin/eselect-wine](app-admin/eselect-wine)	| Manage active wine version						| Eselect module for SLOTed wine versions/variants									|
 | [app-emulation/wine](app-emulation/wine)		| Free implementation of Windows(tm) on Unix				| Originally copied from Gentoo, dependency fixes, bug fixes, wine-staging support, and a functioning live ebuild	|
 | [app-emulation/winetricks](app-emulation/winetricks)	| Easy way to install DLLs needed to work around problems in Wine	| Originally copied from Gentoo, version bump										|
+| [app-emulation/wine-desktop-common](app-emulation/wine-desktop-common)| Various desktop menu items and icons for wine		| Desktop menu entries and icons for wine, as packaged by Gentoo. The files seem to originate from Ubuntu or Fedora	|
 
 Installation
 ------------
