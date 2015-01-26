@@ -1,0 +1,28 @@
+Title: Branch Profile Requirements
+Author: NP-Hardass <np.hardass@gmail.com>
+Content-Type: text/plain
+Posted: 2015-01-25
+Revision: 1
+News-Item-Format: 1.0
+
+This branch of the wine overlay requires that users not use emul-linux-x86
+packages.
+
+To easily facilitate this, it is highly recommended that users switch to a
+no-emul-linux-x86 profile.  Please note that this profile's functionality
+will become the default at some point, so do not be concerned about
+detrimental effects of switching.  The one caveat of switching now is
+that this may require some packages from the testing/unstable profile.
+
+It has been verified that wine and all of its dependencies work from the
+stable branch of Portage at this time.
+
+To verify whether this would cause an issue for you, select the new profile
+and run emerge -pvNDu --with-bdeps=y @world. If this requires that packages
+be added to /etc/portage/package.accept_keywords, then this might cause an
+issue for you if you need to stay on stable. Regardless, this profile switch
+is a reversable change, just change your profile back at this moment, and
+you will be back to how things were.
+
+For more information, if you have questions, or if you'd like help, don't 
+hesitate to stop by the #gentoo-wine channel on Freenode's IRC network.
