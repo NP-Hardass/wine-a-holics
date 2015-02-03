@@ -1,6 +1,8 @@
 Welcome to the Unofficial Wine Overlay!
 =======================================
 
+Repoman Status: [![Build Status](https://travis-ci.org/NP-Hardass/wine-overlay.svg?branch=master)](https://travis-ci.org/NP-Hardass/wine-overlay)
+
 Goals
 -----
 This overlay strives to provide bleeding edge Wine and Wine related ebuilds,
