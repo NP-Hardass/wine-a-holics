@@ -27,7 +27,7 @@ usr/share/applications/wine-notepad.desktop
 usr/share/applications/wine-uninstaller.desktop
 usr/share/applications/wine-winecfg.desktop"
 
-S=${WORKDIR}/${MY_P}
+S=${WORKDIR}/${PN}-${PV//./}
 
 src_install() {
 	emake install DESTDIR="${D}" EPREFIX="${EPREFIX}"
