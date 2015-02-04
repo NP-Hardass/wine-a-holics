@@ -6,10 +6,13 @@ EAPI=5
 
 inherit gnome2-utils
 
+MY_PN=${PN%-*-*}-gentoo
+MY_P=${MY_PN}-${PV}
+
 DESCRIPTION="Various desktop menu items and icons for wine"
 HOMEPAGE="http://dev.gentoo.org/~tetromino/distfiles/wine
 	http://bazaar.launchpad.net/~ubuntu-wine/wine/ubuntu-debian-dir/files/head:/debian/"
-SRC_URI="http://dev.gentoo.org/~tetromino/distfiles/${PN%-*-*}/${PN%-*-*}-gentoo-${PV}.tar.bz2"
+SRC_URI="http://dev.gentoo.org/~tetromino/distfiles/${PN%-*-*}/${MY_P}.tar.bz2"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
@@ -25,6 +28,8 @@ QA_DESKTOP_FILE="usr/share/applications/wine-browsedrive.desktop
 usr/share/applications/wine-notepad.desktop
 usr/share/applications/wine-uninstaller.desktop
 usr/share/applications/wine-winecfg.desktop"
+
+S=${WORKDIR}/${MY_P}
 
 src_install() {
 	emake install DESTDIR="${D}" EPREFIX="${EPREFIX}"
