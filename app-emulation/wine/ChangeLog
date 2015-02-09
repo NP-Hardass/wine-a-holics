@@ -2,6 +2,11 @@
 # Copyright 1999-2015 Gentoo Foundation; Distributed under the GPL v2
 # $Header: /var/cvsroot/gentoo-x86/app-emulation/wine/ChangeLog,v 1.524 2014/12/16 15:06:28 pacho Exp $
 
+*wine-1.7.36 (09 Feb 2015)
+
+  09 Feb 2015; NP-Hardass <np.hardass@gmail.com> +wine-1.7.36.ebuild:
+  Version bump to 1.7.36
+
   26 Jan 2015; NP-Hardass <np.hardass@gmail.com> wine-1.7.33-r2.ebuild:
   Improved perl USE flag handling
 
