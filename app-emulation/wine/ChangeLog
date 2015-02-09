@@ -2,6 +2,10 @@
 # Copyright 1999-2015 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  09 Feb 2015; <gentoo-wine@eroen.eu> wine-9999.ebuild:
+  wine-9999 - Make $PN explicit
+  This simplifies creating addidional variant packages.
+
   26 Jan 2015; <gentoo-wine@eroen.eu> wine-9999.ebuild, metadata.xml:
   Add multislot use flag. This moves the installed files away from the default
   location and wraps the binaries with a script, enabling eselect wine to

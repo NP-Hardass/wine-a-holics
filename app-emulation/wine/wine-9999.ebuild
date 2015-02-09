@@ -17,8 +17,8 @@ if [[ ${PV} == "9999" ]] ; then
 	SRC_URI=""
 	#KEYWORDS=""
 else
-	MY_P="${PN}-${PV/_/-}"
-	SRC_URI="mirror://sourceforge/${PN}/Source/${MY_P}.tar.bz2"
+	MY_P="wine-${PV/_/-}"
+	SRC_URI="mirror://sourceforge/wine/Source/${MY_P}.tar.bz2"
 	KEYWORDS="-* ~amd64" # ~x86 ~x86-fbsd
 	S=${WORKDIR}/${MY_P}
 fi
@@ -32,11 +32,11 @@ DESCRIPTION="Free implementation of Windows(tm) on Unix"
 HOMEPAGE="http://www.winehq.org/"
 SRC_URI="${SRC_URI}
 	gecko? (
-		abi_x86_32? ( mirror://sourceforge/${PN}/Wine%20Gecko/${GV}/wine_gecko-${GV}-x86.msi )
-		abi_x86_64? ( mirror://sourceforge/${PN}/Wine%20Gecko/${GV}/wine_gecko-${GV}-x86_64.msi )
+		abi_x86_32? ( mirror://sourceforge/wine/Wine%20Gecko/${GV}/wine_gecko-${GV}-x86.msi )
+		abi_x86_64? ( mirror://sourceforge/wine/Wine%20Gecko/${GV}/wine_gecko-${GV}-x86_64.msi )
 	)
-	mono? ( mirror://sourceforge/${PN}/Wine%20Mono/${MV}/wine-mono-${MV}.msi )
-	http://dev.gentoo.org/~tetromino/distfiles/${PN}/${WINE_GENTOO}.tar.bz2"
+	mono? ( mirror://sourceforge/wine/Wine%20Mono/${MV}/wine-mono-${MV}.msi )
+	http://dev.gentoo.org/~tetromino/distfiles/wine/${WINE_GENTOO}.tar.bz2"
 
 if [[ ${PV} == "9999" ]] ; then
 	STAGING_EGIT_REPO_URI="git://github.com/wine-compholio/wine-staging.git"
@@ -323,7 +323,7 @@ src_unpack() {
 		git-r3_src_unpack
 		if use staging || use pulseaudio; then
 			EGIT_REPO_URI=${STAGING_EGIT_REPO_URI}
-			unset ${PN}_LIVE_REPO;
+			unset wine_LIVE_REPO;
 			EGIT_CHECKOUT_DIR=${STAGING_DIR} git-r3_src_unpack
 		fi
 	else
@@ -339,10 +339,10 @@ src_unpack() {
 src_prepare() {
 	local md5="$(md5sum server/protocol.def)"
 	local PATCHES=(
-		"${FILESDIR}"/${PN}-1.5.26-winegcc.patch #260726
-		"${FILESDIR}"/${PN}-1.4_rc2-multilib-portage.patch #395615
-		"${FILESDIR}"/${PN}-1.7.12-osmesa-check.patch #429386
-		"${FILESDIR}"/${PN}-1.6-memset-O3.patch #480508
+		"${FILESDIR}"/wine-1.5.26-winegcc.patch #260726
+		"${FILESDIR}"/wine-1.4_rc2-multilib-portage.patch #395615
+		"${FILESDIR}"/wine-1.7.12-osmesa-check.patch #429386
+		"${FILESDIR}"/wine-1.6-memset-O3.patch #480508
 	)
 
 	if use gstreamer; then
@@ -350,7 +350,7 @@ src_prepare() {
 		ewarn "Applying experimental patch to fix GStreamer support. Note that"
 		ewarn "this patch has been reported to cause crashes in certain games."
 
-		PATCHES+=( "${FILESDIR}/${PN}-1.7.28-gstreamer-v4.patch" )
+		PATCHES+=( "${FILESDIR}/wine-1.7.28-gstreamer-v4.patch" )
 	fi
 	if use staging; then
 		ewarn "Applying the unofficial Wine-Staging patchset which is unsupported"
@@ -476,7 +476,7 @@ multilib_src_test() {
 	if [[ ${ABI} == x86 ]]; then
 		if [[ $(id -u) == 0 ]]; then
 			ewarn "Skipping tests since they cannot be run under the root user."
-			ewarn "To run the test ${PN} suite, add userpriv to FEATURES in make.conf"
+			ewarn "To run the test wine suite, add userpriv to FEATURES in make.conf"
 			return
 		fi
 
