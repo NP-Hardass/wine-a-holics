@@ -1,3 +1,8 @@
+*mesa-10.4.3 (09 Feb 2015)
+
+  09 Feb 2015; NP-Hardass <np.hardass@gmail.com> +mesa-10.4.3.ebuild:
+  Import mesa 10.4.3 from portage and add d3d9 use flags
+
 *mesa-9999 (24 Jan 2015)
 
   24 Jan 2015; NP-Hardass <np.hardass@gmail.com> +files/eselect-mesa.conf.9.2,
