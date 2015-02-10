@@ -1,0 +1,2 @@
+# To be removed altogether:
+app-emulation/wine-vanilla gstreamer pulseaudio staging

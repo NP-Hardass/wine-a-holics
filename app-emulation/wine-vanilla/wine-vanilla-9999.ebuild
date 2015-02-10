@@ -310,7 +310,7 @@ pkg_pretend() {
 
 pkg_setup() {
 	if use multislot; then
-		WINE_VARIANT=development-$PV
+		WINE_VARIANT=${PN#wine-}-$PV
 		MY_PREFIX=/usr/lib/wine-${WINE_VARIANT}
 		MY_DATADIR=${MY_PREFIX}
 		MY_MANDIR="${MY_DATADIR}"/man
