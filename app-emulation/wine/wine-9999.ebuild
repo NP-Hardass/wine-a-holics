@@ -53,6 +53,7 @@ REQUIRED_USE="|| ( abi_x86_32 abi_x86_64 )
 	test? ( abi_x86_32 )
 	elibc_glibc? ( threads )
 	mono? ( abi_x86_32 )
+	multiversion? ( multislot )
 	pipelight? ( staging )
 	s3tc? ( staging )
 	staging? ( perl )
@@ -309,7 +310,7 @@ pkg_pretend() {
 
 pkg_setup() {
 	if use multislot; then
-		WINE_VARIANT=generic-$PV
+		WINE_VARIANT=development-$PV
 		MY_PREFIX=/usr/lib/wine-${WINE_VARIANT}
 		MY_DATADIR=${MY_PREFIX}
 		MY_MANDIR="${MY_DATADIR}"/man
