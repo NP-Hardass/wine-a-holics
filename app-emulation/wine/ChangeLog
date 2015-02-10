@@ -2,6 +2,10 @@
 # Copyright 1999-2015 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  10 Feb 2015; <gentoo-wine@eroen.eu> wine-9999.ebuild, metadata.xml:
+  Add multiversion use flag for installing multiple versions of the same
+  package
+
   09 Feb 2015; <gentoo-wine@eroen.eu> wine-9999.ebuild:
   wine-9999 - Make $PN explicit
   This simplifies creating addidional variant packages.
