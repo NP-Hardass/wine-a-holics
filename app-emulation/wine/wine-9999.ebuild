@@ -539,7 +539,7 @@ pkg_preinst() {
 
 pkg_postinst() {
 	if use multislot; then
-		eselect wine update --if-unset
+		eselect wine update --all --if-unset
 	else
 	gnome2_icon_cache_update
 	fi
@@ -548,7 +548,7 @@ pkg_postinst() {
 
 pkg_postrm() {
 	if use multislot; then
-		eselect wine update --if-unset
+		eselect wine update --all --if-unset
 	else
 	gnome2_icon_cache_update
 	fi
