@@ -2,6 +2,14 @@
 # Copyright 1999-2015 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*wine-vanilla-1.7.36 (11 Feb 2015)
+*wine-vanilla-1.7.35 (11 Feb 2015)
+*wine-vanilla-1.7.34 (11 Feb 2015)
+
+  11 Feb 2015; <gentoo-wine@eroen.eu> +wine-vanilla-1.7.34.ebuild,
+  +wine-vanilla-1.7.35.ebuild, +wine-vanilla-1.7.36.ebuild:
+  Add releases
+
 *wine-vanilla-9999 (10 Feb 2015)
 
   10 Feb 2015; <gentoo-wine@eroen.eu> +wine-vanilla-9999.ebuild,
