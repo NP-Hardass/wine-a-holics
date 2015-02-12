@@ -4,6 +4,10 @@
 
   12 Feb 2015; NP-Hardass <np.hardass@gmail.com> wine-1.7.33-r2.ebuild,
   wine-1.7.34.ebuild, wine-1.7.35.ebuild, wine-1.7.36.ebuild, wine-9999.ebuild:
+  set lcms and xcomposite as default, github issue #3
+
+  12 Feb 2015; NP-Hardass <np.hardass@gmail.com> wine-1.7.33-r2.ebuild,
+  wine-1.7.34.ebuild, wine-1.7.35.ebuild, wine-1.7.36.ebuild, wine-9999.ebuild:
   xdg menu fix, github issue #1
 
 *wine-1.7.36 (09 Feb 2015)
