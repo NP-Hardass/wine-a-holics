@@ -22,6 +22,10 @@
   26 Jan 2015; <gentoo-wine@eroen.eu> wine-9999.ebuild:
   Cleanup. Make implicit paths explicit in preparation for SLOTing.
 
+  12 Feb 2015; NP-Hardass <np.hardass@gmail.com> wine-1.7.33-r1.ebuild,
+  wine-1.7.34.ebuild, wine-1.7.35.ebuild, wine-1.7.36.ebuild, wine-9999.ebuild:
+  set lcms and xcomposite as default, github issue #3
+
 *wine-1.7.36 (09 Feb 2015)
 
   09 Feb 2015; NP-Hardass <np.hardass@gmail.com> +wine-1.7.36.ebuild:
