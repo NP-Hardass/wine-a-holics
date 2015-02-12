@@ -28,7 +28,8 @@ MV="4.5.4"
 STAGING_P="wine-staging-${PV}"
 D3D9_P="wine-d3d9-${PV}"
 D3D9_DIR="${WORKDIR}/wine-d3d9-patches-${D3D9_P}"
-WINE_GENTOO="wine-gentoo-2013.06.24"
+WDC_V="20150204"
+WINE_DESKTOP_COMMON_P="wine-desktop-common-${WDC_V}"
 DESCRIPTION="Free implementation of Windows(tm) on Unix"
 HOMEPAGE="http://www.winehq.org/"
 SRC_URI="${SRC_URI}
@@ -37,7 +38,7 @@ SRC_URI="${SRC_URI}
 		abi_x86_64? ( mirror://sourceforge/${PN}/Wine%20Gecko/${GV}/wine_gecko-${GV}-x86_64.msi )
 	)
 	mono? ( mirror://sourceforge/${PN}/Wine%20Mono/${MV}/wine-mono-${MV}.msi )
-	http://dev.gentoo.org/~tetromino/distfiles/${PN}/${WINE_GENTOO}.tar.bz2"
+	https://github.com/NP-Hardass/wine-desktop-common/archive/${WDC_V}.tar.gz -> ${WINE_DESKTOP_COMMON_P}.tar.gz"
 
 if [[ ${PV} == "9999" ]] ; then
 	STAGING_EGIT_REPO_URI="git://github.com/wine-compholio/wine-staging.git"
@@ -204,7 +205,7 @@ src_unpack() {
 		use d3d9 && unpack "${D3D9_P}.tar.gz"
 	fi
 
-	unpack "${WINE_GENTOO}.tar.bz2"
+	unpack "${WINE_DESKTOP_COMMON_P}.tar.gz"
 
 	l10n_find_plocales_changes "${S}/po" "" ".po"
 }
@@ -268,7 +269,7 @@ src_prepare() {
 	fi
 
 	# hi-res default icon, #472990, http://bugs.winehq.org/show_bug.cgi?id=24652
-	cp "${WORKDIR}"/${WINE_GENTOO}/icons/oic_winlogo.ico dlls/user32/resources/ || die
+	cp "${WORKDIR}"/${WINE_DESKTOP_COMMON_P}/icons/oic_winlogo.ico dlls/user32/resources/ || die
 
 	l10n_get_locales > po/LINGUAS # otherwise wine doesn't respect LINGUAS
 }
@@ -373,7 +374,7 @@ multilib_src_install_all() {
 	einstalldocs
 	prune_libtool_files --all
 
-	emake -C "../${WINE_GENTOO}" install DESTDIR="${D}" EPREFIX="${EPREFIX}"
+	emake -C "../${WINE_DESKTOP_COMMON_P}" install DESTDIR="${D}" EPREFIX="${EPREFIX}"
 	if use gecko ; then
 		insinto /usr/share/wine/gecko
 		use abi_x86_32 && doins "${DISTDIR}"/wine_gecko-${GV}-x86.msi
