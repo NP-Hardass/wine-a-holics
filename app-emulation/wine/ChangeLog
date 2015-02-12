@@ -2,6 +2,11 @@
 # Copyright 1999-2015 Gentoo Foundation; Distributed under the GPL v2
 # $Header: /var/cvsroot/gentoo-x86/app-emulation/wine/ChangeLog,v 1.524 2014/12/16 15:06:28 pacho Exp $
 
+  12 Feb 2015; NP-Hardass <np.hardass@gmail.com>
+  +files/wine-gentoo-2013.06.24-xdg-dir-fix.patch, wine-1.7.33-r1.ebuild,
+  wine-1.7.34.ebuild, wine-1.7.35.ebuild, wine-1.7.36.ebuild, wine-9999.ebuild:
+  xdg menu fix, github issue #1
+
   12 Feb 2015; NP-Hardass <np.hardass@gmail.com> wine-1.7.33-r1.ebuild,
   wine-1.7.34.ebuild, wine-1.7.35.ebuild, wine-1.7.36.ebuild, wine-9999.ebuild:
   set lcms and xcomposite as default, github issue #3
