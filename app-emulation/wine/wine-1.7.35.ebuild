@@ -351,6 +351,10 @@ src_prepare() {
 		"${FILESDIR}"/wine-1.6-memset-O3.patch #480508
 	)
 
+	pushd "${WORKDIR}/${WINE_GENTOO}" > /dev/null
+	epatch "${FILESDIR}/${WINE_GENTOO}-xdg-dir-fix.patch" #wine-overlay github #1
+	popd > /dev/null
+
 	if use gstreamer; then
 		# See http://bugs.winehq.org/show_bug.cgi?id=30557
 		ewarn "Applying experimental patch to fix GStreamer support. Note that"

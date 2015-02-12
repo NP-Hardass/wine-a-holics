@@ -324,6 +324,11 @@ src_prepare() {
 		"${FILESDIR}"/${PN}-1.7.12-osmesa-check.patch #429386
 		"${FILESDIR}"/${PN}-1.6-memset-O3.patch #480508
 	)
+
+	pushd "${WORKDIR}/${WINE_GENTOO}" > /dev/null
+	epatch "${FILESDIR}/${WINE_GENTOO}-xdg-dir-fix.patch" #wine-overlay github #1
+	popd > /dev/null
+
 	local STAGING_MAKE_ARGS="-W fonts-Missing_Fonts.ok"
 
 	use pipelight || STAGING_MAKE_ARGS="${STAGING_MAKE_ARGS} -W Pipelight.ok"
