@@ -39,7 +39,7 @@ fi
 # GLES[2]/gl[2]{,ext,platform}.h are SGI-B-2.0
 LICENSE="MIT SGI-B-2.0"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd64-fbsd ~x86-fbsd ~x86-freebsd ~amd64-linux ~arm-linux ~ia64-linux ~x86-linux ~sparc-solaris ~x64-solaris ~x86-solaris"
 
 INTEL_CARDS="i915 i965 ilo intel"
 RADEON_CARDS="r100 r200 r300 r600 radeon radeonsi"
@@ -54,7 +54,7 @@ IUSE="${IUSE_VIDEO_CARDS}
 	+udev vaapi vdpau wayland xvmc xa kernel_FreeBSD"
 
 REQUIRED_USE="
-	d3d9? ( gallium dri3 )
+	d3d9?   ( dri3 gallium )
 	llvm?   ( gallium )
 	opencl? (
 		gallium
@@ -318,6 +318,7 @@ multilib_src_configure() {
 		--enable-dri \
 		--enable-glx \
 		--enable-shared-glapi \
+		--disable-shader-cache \
 		$(use_enable !bindist texture-float) \
 		$(use_enable d3d9 nine) \
 		$(use_enable debug) \
