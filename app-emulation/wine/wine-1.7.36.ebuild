@@ -48,7 +48,7 @@ else
 fi
 
 LICENSE="LGPL-2.1"
-if [[ ${PN} =~ "-" ]]; then
+if [ ${PN} = "wine" ]; then
     SLOT="${PV}"
 else
     SLOT="0"
