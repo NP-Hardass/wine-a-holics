@@ -57,6 +57,7 @@ REQUIRED_USE="|| ( abi_x86_32 abi_x86_64 )
 	test? ( abi_x86_32 )
 	elibc_glibc? ( threads )
 	mono? ( abi_x86_32 )
+	multiversion? ( multislot )
 	pipelight? ( staging )
 	s3tc? ( staging )
 	osmesa? ( opengl )" #286560
@@ -405,6 +406,7 @@ src_prepare() {
 	if use multislot; then
 		sed -e "/^Exec=/s/wine /wine-${WINE_VARIANT} /" \
 			-i tools/wine.desktop || die
+	fi
 
 	# hi-res default icon, #472990, http://bugs.winehq.org/show_bug.cgi?id=24652
 	cp "${WORKDIR}"/${WINE_GENTOO}/icons/oic_winlogo.ico dlls/user32/resources/ || die
@@ -421,6 +423,9 @@ src_configure() {
 
 multilib_src_configure() {
 	local myconf=(
+		--prefix="${MY_PREFIX}"
+		--datadir="${MY_DATADIR}"
+		--mandir="${MY_MANDIR}"
 		--sysconfdir=/etc/wine
 		$(use_with alsa)
 		$(use_with capi)
@@ -533,6 +538,12 @@ multilib_src_install_all() {
 	if use abi_x86_64 && ! use abi_x86_32; then
 		dosym "${MY_PREFIX}"/bin/wine{64,} # 404331
 		dosym "${MY_PREFIX}"/bin/wine{64,}-preloader
+	fi
+
+	if use multislot; then
+		for b in "${D%/}${MY_PREFIX}"/bin/*; do
+			make_wrapper ${b##*/}-${WINE_VARIANT} "${MY_PREFIX}"/bin/${b##*/}
+		done
 	fi
 
 	# respect LINGUAS when installing man pages, #469418

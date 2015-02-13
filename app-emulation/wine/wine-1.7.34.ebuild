@@ -406,6 +406,7 @@ src_prepare() {
 	if use multislot; then
 		sed -e "/^Exec=/s/wine /wine-${WINE_VARIANT} /" \
 			-i tools/wine.desktop || die
+	fi
 
 	# hi-res default icon, #472990, http://bugs.winehq.org/show_bug.cgi?id=24652
 	cp "${WORKDIR}"/${WINE_GENTOO}/icons/oic_winlogo.ico dlls/user32/resources/ || die
@@ -537,7 +538,7 @@ multilib_src_install_all() {
 	fi
 
 	if use multislot; then
-		for b in "${D%/}${MY_PREFIX}"/bin/* do
+		for b in "${D%/}${MY_PREFIX}"/bin/*; do
 			make_wrapper ${b##*/}-${WINE_VARIANT} "${MY_PREFIX}"/bin/${b##*/}
 		done
 	fi
