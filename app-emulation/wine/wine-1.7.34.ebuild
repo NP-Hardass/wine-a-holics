@@ -21,14 +21,17 @@ else
 	MY_P="${MY_PN}-${PV/_/-}"
 	SRC_URI="mirror://sourceforge/${MY_PN}/Source/${MY_P}.tar.bz2"
 	KEYWORDS="-* ~amd64 ~x86 ~x86-fbsd"
-	S=${WORKDIR}/${MY_P}
+	S="${WORKDIR}/${MY_P}"
 fi
 
 GV="2.34"
 MV="4.5.4"
 STAGING_P="wine-staging-${PV}"
 STAGING_DIR="${WORKDIR}/${STAGING_P}"
-WINE_GENTOO="wine-gentoo-2013.06.24"
+D3D9_P="wine-d3d9-${PV}"
+D3D9_DIR="${WORKDIR}/wine-d3d9-patches-${D3D9_P}"
+WDC_V="20150204"
+WINE_DESKTOP_COMMON_P="wine-desktop-common-${WDC_V}"
 DESCRIPTION="Free implementation of Windows(tm) on Unix"
 HOMEPAGE="http://www.winehq.org/"
 SRC_URI="${SRC_URI}
@@ -37,27 +40,30 @@ SRC_URI="${SRC_URI}
 		abi_x86_64? ( mirror://sourceforge/${MY_PN}/Wine%20Gecko/${GV}/wine_gecko-${GV}-x86_64.msi )
 	)
 	mono? ( mirror://sourceforge/${MY_PN}/Wine%20Mono/${MV}/wine-mono-${MV}.msi )
-	http://dev.gentoo.org/~tetromino/distfiles/${MY_PN}/${WINE_GENTOO}.tar.bz2"
+	https://github.com/NP-Hardass/wine-desktop-common/archive/${WDC_V}.tar.gz -> ${WINE_DESKTOP_COMMON_P}.tar.gz"
 
 if [[ ${PV} == "9999" ]] ; then
 	STAGING_EGIT_REPO_URI="git://github.com/wine-compholio/wine-staging.git"
+	D3D9_EGIT_REPO_URI="git://github.com/NP-Hardass/wine-d3d9-patches.git"
 else
 	SRC_URI="${SRC_URI}
 	staging? ( https://github.com/wine-compholio/wine-staging/archive/v${PV}.tar.gz -> ${STAGING_P}.tar.gz )
-	pulseaudio? ( https://github.com/wine-compholio/wine-staging/archive/v${PV}.tar.gz -> ${STAGING_P}.tar.gz )"
+	pulseaudio? ( https://github.com/wine-compholio/wine-staging/archive/v${PV}.tar.gz -> ${STAGING_P}.tar.gz )
+	d3d9? ( https://github.com/NP-Hardass/wine-d3d9-patches/archive/wine-d3d9-${PV}.tar.gz -> ${D3D9_P}.tar.gz )"
 fi
 
 LICENSE="LGPL-2.1"
-if [ "${PN}" == "wine" ]; then
+if [ "${PN}" = "wine" ]; then
 	SLOT="${PV}"
 else
 	SLOT="0"
 fi
-IUSE="+abi_x86_32 +abi_x86_64 +alsa capi cups custom-cflags dos elibc_glibc +fontconfig +gecko gphoto2 gsm gstreamer +jpeg +lcms ldap +mono mp3 multislot multiversion ncurses netapi nls odbc openal opencl +opengl osmesa oss +perl pcap pipelight +png +prelink pulseaudio +realtime +run-exes s3tc samba scanner selinux +ssl staging test +threads +truetype +udisks v4l +X +xcomposite xinerama +xml"
+IUSE="+abi_x86_32 +abi_x86_64 +alsa capi cups custom-cflags d3d9 dos elibc_glibc +fontconfig +gecko gphoto2 gsm gstreamer +jpeg +lcms ldap +mono mp3 multislot multiversion ncurses netapi nls odbc openal opencl +opengl osmesa oss +perl pcap pipelight +png +prelink pulseaudio +realtime +run-exes s3tc samba scanner selinux +ssl staging test +threads +truetype +udisks v4l +X +xcomposite xinerama +xml"
 REQUIRED_USE="|| ( abi_x86_32 abi_x86_64 )
 	test? ( abi_x86_32 )
 	elibc_glibc? ( threads )
 	mono? ( abi_x86_32 )
+	multiversion? ( multislot )
 	pipelight? ( staging )
 	s3tc? ( staging )
 	staging? ( perl )
@@ -70,6 +76,7 @@ RESTRICT="test"
 NATIVE_DEPEND="
 	truetype? ( >=media-libs/freetype-2.0.0  )
 	capi? ( net-dialup/capi4k-utils )
+	d3d9? ( media-libs/mesa[d3d9] )
 	ncurses? ( >=sys-libs/ncurses-5.2:= )
 	udisks? ( sys-apps/dbus )
 	fontconfig? ( media-libs/fontconfig:= )
@@ -177,6 +184,7 @@ COMMON_DEPEND="
 					>=virtual/opengl-7.0-r1[abi_x86_32(-)]
 				)
 			) )
+			d3d9? ( media-libs/mesa[d3d9,abi_x86_32(-)] )
 			gsm? ( || (
 				app-emulation/emul-linux-x86-soundlibs[development,-abi_x86_32(-)]
 				>=media-sound/gsm-1.0.13-r1[abi_x86_32(-)]
@@ -315,9 +323,9 @@ pkg_pretend() {
 
 pkg_setup() {
 	if use multislot; then
-		WINE_VARIANT=development-${PV}
-		MY_PREFIX=/usr/lib/wine-${WINE_VARIANT}
-		MY_DATADIR=${MY_PREFIX}
+		WINE_VARIANT=development-"${PV}"
+		MY_PREFIX=/usr/lib/wine-"${WINE_VARIANT}"
+		MY_DATADIR="${MY_PREFIX}"
 		MY_MANDIR="${MY_DATADIR}"/man
 	else
 		MY_PREFIX=/usr
@@ -332,16 +340,22 @@ src_unpack() {
 	if [[ ${PV} == "9999" ]] ; then
 		git-r3_src_unpack
 		if use staging || use pulseaudio; then
-			EGIT_REPO_URI=${STAGING_EGIT_REPO_URI}
-			unset ${MY_PN}_LIVE_REPO;
-			EGIT_CHECKOUT_DIR=${STAGING_DIR} git-r3_src_unpack
+			EGIT_REPO_URI="${STAGING_EGIT_REPO_URI}"
+			unset "${PN}_LIVE_REPO";
+			EGIT_CHECKOUT_DIR="${STAGING_DIR}" git-r3_src_unpack
+		fi
+		if use d3d9; then
+			EGIT_REPO_URI="${D3D9_EGIT_REPO_URI}"
+			unset "${PN}_LIVE_REPO";
+			EGIT_CHECKOUT_DIR="${D3D9_DIR}" git-r3_src_unpack
 		fi
 	else
 		unpack ${MY_P}.tar.bz2
 		use staging || use pulseaudio && unpack "${STAGING_P}.tar.gz"
+		use d3d9 && unpack "${D3D9_P}.tar.gz"
 	fi
 
-	unpack "${WINE_GENTOO}.tar.bz2"
+	unpack "${WINE_DESKTOP_COMMON_P}.tar.gz"
 
 	l10n_find_plocales_changes "${S}/po" "" ".po"
 }
@@ -354,10 +368,6 @@ src_prepare() {
 		"${FILESDIR}"/${MY_PN}-1.7.12-osmesa-check.patch #429386
 		"${FILESDIR}"/${MY_PN}-1.6-memset-O3.patch #480508
 	)
-
-	pushd "${WORKDIR}/${WINE_GENTOO}" > /dev/null
-	epatch "${FILESDIR}/${WINE_GENTOO}-xdg-dir-fix.patch" #wine-overlay github #1
-	popd > /dev/null
 
 	if use gstreamer; then
 		# See http://bugs.winehq.org/show_bug.cgi?id=30557
@@ -390,6 +400,9 @@ src_prepare() {
 	elif use pulseaudio; then
 		PATCHES+=( "${STAGING_DIR}/patches/winepulse-PulseAudio_Support"/*.patch )
 	fi
+	if use d3d9; then
+		PATCHES+=( "${D3D9_DIR}/wine-d3d9.patch" )
+	fi
 	autotools-utils_src_prepare
 
 	# Modification of the server protocol requires regenerating the server requests
@@ -409,7 +422,7 @@ src_prepare() {
 	fi
 
 	# hi-res default icon, #472990, http://bugs.winehq.org/show_bug.cgi?id=24652
-	cp "${WORKDIR}"/${WINE_GENTOO}/icons/oic_winlogo.ico dlls/user32/resources/ || die
+	cp "${WORKDIR}"/${WINE_DESKTOP_COMMON_P}/icons/oic_winlogo.ico dlls/user32/resources/ || die
 
 	l10n_get_locales > po/LINGUAS # otherwise wine doesn't respect LINGUAS
 }
@@ -423,6 +436,9 @@ src_configure() {
 
 multilib_src_configure() {
 	local myconf=(
+		--prefix="${MY_PREFIX}"
+		--datadir="${MY_DATADIR}"
+		--mandir="${MY_MANDIR}"
 		--sysconfdir=/etc/wine
 		$(use_with alsa)
 		$(use_with capi)
@@ -465,6 +481,7 @@ multilib_src_configure() {
 		--with-xattr
 		$(use_with s3tc txc_dxtn)
 	)
+	use d3d9 && myconf+=( $(use_with d3d9 d3dadapter) )
 
 	local PKG_CONFIG AR RANLIB
 	# Avoid crossdev's i686-pc-linux-gnu-pkg-config if building wine32 on amd64; #472038
@@ -512,9 +529,9 @@ multilib_src_install_all() {
 
 	einstalldocs
 	prune_libtool_files --all
-	
+
 	if ! use multislot; then
-		emake -C "../${WINE_GENTOO}" install DESTDIR="${D}" EPREFIX="${EPREFIX}"
+		emake -C "../${WINE_DESKTOP_COMMON_P}" install DESTDIR="${D}" EPREFIX="${EPREFIX}"
 	fi
 	if use gecko ; then
 		insinto "${MY_DATADIR}"/wine/gecko

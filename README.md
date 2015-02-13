@@ -21,10 +21,11 @@ This is a list of packages and any associated notes:
 
 | Package						| Description								| Notes															|
 | ----------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| [app-admin/eselect-wine](app-admin/eselect-wine)	| Manage active wine version						| Eselect module for SLOTed wine versions/variants									|
+| [app-admin/eselect-wine](app-admin/eselect-wine)	| Manage active wine version						| Written by eroen, handles various multislot versions of Wine									|
 | [app-emulation/wine](app-emulation/wine)		| Free implementation of Windows(tm) on Unix				| Originally copied from Gentoo, dependency fixes, bug fixes, wine-staging support, and a functioning live ebuild	|
+| [app-emulation/wine-desktop-common](app-emulation/wine-desktop-common)| Various desktop menu items and icons for wine		| Forked from Tetromino's wine-gentoo tarball, originally from Ubuntu	|
 | [app-emulation/winetricks](app-emulation/winetricks)	| Easy way to install DLLs needed to work around problems in Wine	| Originally copied from Gentoo, version bump										|
-| [app-emulation/wine-desktop-common](app-emulation/wine-desktop-common)| Various desktop menu items and icons for wine		| Desktop menu entries and icons for wine, as packaged by Gentoo. The files seem to originate from Ubuntu or Fedora	|
+| [media-libs/mesa](media-libs/mesa)			| OpenGL-like graphic library for Linux					| Originally copied from x11 overlay, live, includes d3d9, stripped all keywords except amd64 and x86			|
 
 Installation
 ------------
@@ -52,25 +53,3 @@ To delete the overlay:
 To sync the overlay via eix:
 
 	# eix-sync
-
-Branches
---------
-This overlay provides several branches for experimental features and
-features in development.  Many of these features are described in
-[Goals](#Goals). To take advantage of these branches, simply change
-directory to the overlay, and checkout the new branch.  Layman will
-continue to use this branch until you opt to switch back.
-
-Branches that users are likely to be interested in are:
-* `d3d9` for Gallium Nine Direct3D9 support
-* `slotted_wine` for Wine with support for multislot
-
-To switch to a branch called BRANCH:
-
-	# cd /var/lib/layman/wine-overlay
-	# git checkout BRANCH
-
-To switch back to the default branch:
-	
-	# cd /var/lib/layman/wine-overlay
-	# git checkout master

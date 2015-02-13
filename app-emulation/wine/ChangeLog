@@ -63,6 +63,29 @@
   work well with emul-linux packages See: Issue #1 Thanks to Aliekezhi for
   pointing it out.
 
+  12 Feb 2015; NP-Hardass <np.hardass@gmail.com> wine-1.7.33-r2.ebuild,
+  wine-1.7.34.ebuild, wine-1.7.35.ebuild, wine-1.7.36.ebuild, wine-9999.ebuild:
+  set lcms and xcomposite as default, github issue #3
+
+  12 Feb 2015; NP-Hardass <np.hardass@gmail.com> wine-1.7.33-r2.ebuild,
+  wine-1.7.34.ebuild, wine-1.7.35.ebuild, wine-1.7.36.ebuild, wine-9999.ebuild:
+  xdg menu fix, github issue #1
+
+*wine-1.7.36 (09 Feb 2015)
+
+  09 Feb 2015; NP-Hardass <np.hardass@gmail.com> +wine-1.7.36.ebuild:
+  Version bump to 1.7.36
+
+  26 Jan 2015; NP-Hardass <np.hardass@gmail.com> wine-1.7.33-r2.ebuild:
+  Improved perl USE flag handling
+
+*wine-1.7.33-r2 (26 Jan 2015)
+
+  26 Jan 2015; NP-Hardass <np.hardass@gmail.com> +wine-1.7.33-r2.ebuild,
+  -wine-1.7.33-r1.ebuild, metadata.xml, wine-1.7.34.ebuild, wine-1.7.35.ebuild,
+  wine-9999.ebuild:
+  Full D3D9 support, tested with and without staging 1.7.35, 9999
+
 *wine-1.7.35 (24 Jan 2015)
 
   24 Jan 2015; NP-Hardass <np.hardass@gmail.com> +wine-1.7.35.ebuild:
