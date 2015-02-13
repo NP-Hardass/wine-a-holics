@@ -544,7 +544,9 @@ multilib_src_install_all() {
 }
 
 pkg_preinst() {
+	if ! use multislot; then
 	gnome2_icon_savelist
+	fi
 }
 
 pkg_postinst() {
