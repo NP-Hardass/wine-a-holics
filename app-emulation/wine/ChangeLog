@@ -1,6 +1,40 @@
 # ChangeLog for app-emulation/wine
 # Copyright 1999-2015 Gentoo Foundation; Distributed under the GPL v2
-# $Header: /var/cvsroot/gentoo-x86/app-emulation/wine/ChangeLog,v 1.524 2014/12/16 15:06:28 pacho Exp $
+# $Header: $
+
+  11 Feb 2015; <gentoo-wine@eroen.eu> wine-1.7.35.ebuild, wine-1.7.36.ebuild:
+  Apply multislot/multiversion changes to release versions
+
+  10 Feb 2015; <gentoo-wine@eroen.eu> wine-9999.ebuild, metadata.xml:
+  Add multiversion use flag for installing multiple versions of the same
+  package
+
+  09 Feb 2015; <gentoo-wine@eroen.eu> wine-9999.ebuild:
+  wine-9999 - Make $PN explicit
+  This simplifies creating addidional variant packages.
+
+  26 Jan 2015; <gentoo-wine@eroen.eu> wine-9999.ebuild, metadata.xml:
+  Add multislot use flag. This moves the installed files away from the default
+  location and wraps the binaries with a script, enabling eselect wine to
+  manage
+  the active version/variant.
+
+  26 Jan 2015; <gentoo-wine@eroen.eu> wine-9999.ebuild:
+  Cleanup. Make implicit paths explicit in preparation for SLOTing.
+
+  12 Feb 2015; NP-Hardass <np.hardass@gmail.com>
+  +files/wine-gentoo-2013.06.24-xdg-dir-fix.patch, wine-1.7.33-r1.ebuild,
+  wine-1.7.34.ebuild, wine-1.7.35.ebuild, wine-1.7.36.ebuild, wine-9999.ebuild:
+  xdg menu fix, github issue #1
+
+  12 Feb 2015; NP-Hardass <np.hardass@gmail.com> wine-1.7.33-r1.ebuild,
+  wine-1.7.34.ebuild, wine-1.7.35.ebuild, wine-1.7.36.ebuild, wine-9999.ebuild:
+  set lcms and xcomposite as default, github issue #3
+
+*wine-1.7.36 (09 Feb 2015)
+
+  09 Feb 2015; NP-Hardass <np.hardass@gmail.com> +wine-1.7.36.ebuild:
+  Version bump to 1.7.36
 
   12 Feb 2015; NP-Hardass <np.hardass@gmail.com>
   +files/wine-gentoo-2013.06.24-xdg-dir-fix.patch, wine-1.7.33-r1.ebuild,

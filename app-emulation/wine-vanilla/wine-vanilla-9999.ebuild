@@ -10,7 +10,6 @@ PLOCALE_BACKUP="en"
 
 inherit autotools-utils eutils fdo-mime flag-o-matic gnome2-utils l10n multilib multilib-minimal pax-utils toolchain-funcs virtualx
 
-MY_PN="wine"
 if [[ ${PV} == "9999" ]] ; then
 	EGIT_REPO_URI="git://source.winehq.org/git/wine.git"
 	EGIT_BRANCH="master"
@@ -18,9 +17,9 @@ if [[ ${PV} == "9999" ]] ; then
 	SRC_URI=""
 	#KEYWORDS=""
 else
-	MY_P="${MY_PN}-${PV/_/-}"
-	SRC_URI="mirror://sourceforge/${MY_PN}/Source/${MY_P}.tar.bz2"
-	KEYWORDS="-* ~amd64 ~x86 ~x86-fbsd"
+	MY_P="wine-${PV/_/-}"
+	SRC_URI="mirror://sourceforge/wine/Source/${MY_P}.tar.bz2"
+	KEYWORDS="-* ~amd64" # ~x86 ~x86-fbsd
 	S=${WORKDIR}/${MY_P}
 fi
 
@@ -33,11 +32,11 @@ DESCRIPTION="Free implementation of Windows(tm) on Unix"
 HOMEPAGE="http://www.winehq.org/"
 SRC_URI="${SRC_URI}
 	gecko? (
-		abi_x86_32? ( mirror://sourceforge/${MY_PN}/Wine%20Gecko/${GV}/wine_gecko-${GV}-x86.msi )
-		abi_x86_64? ( mirror://sourceforge/${MY_PN}/Wine%20Gecko/${GV}/wine_gecko-${GV}-x86_64.msi )
+		abi_x86_32? ( mirror://sourceforge/wine/Wine%20Gecko/${GV}/wine_gecko-${GV}-x86.msi )
+		abi_x86_64? ( mirror://sourceforge/wine/Wine%20Gecko/${GV}/wine_gecko-${GV}-x86_64.msi )
 	)
-	mono? ( mirror://sourceforge/${MY_PN}/Wine%20Mono/${MV}/wine-mono-${MV}.msi )
-	http://dev.gentoo.org/~tetromino/distfiles/${MY_PN}/${WINE_GENTOO}.tar.bz2"
+	mono? ( mirror://sourceforge/wine/Wine%20Mono/${MV}/wine-mono-${MV}.msi )
+	http://dev.gentoo.org/~tetromino/distfiles/wine/${WINE_GENTOO}.tar.bz2"
 
 if [[ ${PV} == "9999" ]] ; then
 	STAGING_EGIT_REPO_URI="git://github.com/wine-compholio/wine-staging.git"
@@ -48,12 +47,8 @@ else
 fi
 
 LICENSE="LGPL-2.1"
-if [[ ${PN} =~ "-" ]]; then
-    SLOT="${PV}"
-else
-    SLOT="0"
-fi
-IUSE="+abi_x86_32 +abi_x86_64 +alsa capi cups custom-cflags dos elibc_glibc +fontconfig +gecko gphoto2 gsm gstreamer +jpeg +lcms ldap +mono mp3 ncurses netapi nls odbc openal opencl +opengl osmesa oss +perl pcap pipelight +png +prelink pulseaudio +realtime +run-exes s3tc samba scanner selinux +ssl staging test +threads +truetype +udisks v4l +X +xcomposite xinerama +xml"
+SLOT="$PV"
+IUSE="+abi_x86_32 +abi_x86_64 +alsa capi cups custom-cflags dos elibc_glibc +fontconfig +gecko gphoto2 gsm gstreamer +jpeg +lcms ldap +mono mp3 multislot multiversion ncurses netapi nls odbc openal opencl +opengl osmesa oss +perl pcap pipelight +png +prelink pulseaudio +realtime +run-exes s3tc samba scanner selinux +ssl staging test +threads +truetype +udisks v4l +X +xcomposite xinerama +xml"
 REQUIRED_USE="|| ( abi_x86_32 abi_x86_64 )
 	test? ( abi_x86_32 )
 	elibc_glibc? ( threads )
@@ -316,14 +311,14 @@ pkg_pretend() {
 
 pkg_setup() {
 	if use multislot; then
-		WINE_VARIANT=development-$PV
+		WINE_VARIANT=${PN#wine-}-$PV
 		MY_PREFIX=/usr/lib/wine-${WINE_VARIANT}
 		MY_DATADIR=${MY_PREFIX}
 		MY_MANDIR="${MY_DATADIR}"/man
 	else
-		MY_PREFIX=/usr
-		MY_DATADIR=/usr/share
-		MY_MANDIR=/usr/share/man
+	MY_PREFIX=/usr
+	MY_DATADIR=/usr/share
+	MY_MANDIR=/usr/share/man
 	fi
 
 	wine_build_environment_check || die
@@ -334,7 +329,7 @@ src_unpack() {
 		git-r3_src_unpack
 		if use staging || use pulseaudio; then
 			EGIT_REPO_URI=${STAGING_EGIT_REPO_URI}
-			unset ${MY_PN}_LIVE_REPO;
+			unset wine_LIVE_REPO;
 			EGIT_CHECKOUT_DIR=${STAGING_DIR} git-r3_src_unpack
 		fi
 	else
@@ -350,10 +345,10 @@ src_unpack() {
 src_prepare() {
 	local md5="$(md5sum server/protocol.def)"
 	local PATCHES=(
-		"${FILESDIR}"/${MY_PN}-1.5.26-winegcc.patch #260726
-		"${FILESDIR}"/${MY_PN}-1.4_rc2-multilib-portage.patch #395615
-		"${FILESDIR}"/${MY_PN}-1.7.12-osmesa-check.patch #429386
-		"${FILESDIR}"/${MY_PN}-1.6-memset-O3.patch #480508
+		"${FILESDIR}"/wine-1.5.26-winegcc.patch #260726
+		"${FILESDIR}"/wine-1.4_rc2-multilib-portage.patch #395615
+		"${FILESDIR}"/wine-1.7.12-osmesa-check.patch #429386
+		"${FILESDIR}"/wine-1.6-memset-O3.patch #480508
 	)
 
 	pushd "${WORKDIR}/${WINE_GENTOO}" > /dev/null
@@ -365,7 +360,7 @@ src_prepare() {
 		ewarn "Applying experimental patch to fix GStreamer support. Note that"
 		ewarn "this patch has been reported to cause crashes in certain games."
 
-		PATCHES+=( "${FILESDIR}/${MY_PN}-1.7.28-gstreamer-v4.patch" )
+		PATCHES+=( "${FILESDIR}/wine-1.7.28-gstreamer-v4.patch" )
 	fi
 	if use staging; then
 		ewarn "Applying the unofficial Wine-Staging patchset which is unsupported"
@@ -491,7 +486,7 @@ multilib_src_test() {
 	if [[ ${ABI} == x86 ]]; then
 		if [[ $(id -u) == 0 ]]; then
 			ewarn "Skipping tests since they cannot be run under the root user."
-			ewarn "To run the test ${MY_PN} suite, add userpriv to FEATURES in make.conf"
+			ewarn "To run the test wine suite, add userpriv to FEATURES in make.conf"
 			return
 		fi
 
@@ -513,7 +508,7 @@ multilib_src_install_all() {
 	prune_libtool_files --all
 
 	if ! use multislot; then
-		emake -C "../${WINE_GENTOO}" install DESTDIR="${D}" EPREFIX="${EPREFIX}"
+	emake -C "../${WINE_GENTOO}" install DESTDIR="${D}" EPREFIX="${EPREFIX}"
 	fi
 	if use gecko ; then
 		insinto "${MY_DATADIR}"/wine/gecko
@@ -550,7 +545,7 @@ multilib_src_install_all() {
 
 pkg_preinst() {
 	if ! use multislot; then
-		gnome2_icon_savelist
+	gnome2_icon_savelist
 	fi
 }
 
@@ -558,7 +553,7 @@ pkg_postinst() {
 	if use multislot; then
 		eselect wine update --all --if-unset
 	else
-		gnome2_icon_cache_update
+	gnome2_icon_cache_update
 	fi
 	fdo-mime_desktop_database_update
 }
@@ -567,7 +562,7 @@ pkg_postrm() {
 	if use multislot; then
 		eselect wine update --all --if-unset
 	else
-		gnome2_icon_cache_update
+	gnome2_icon_cache_update
 	fi
 	fdo-mime_desktop_database_update
 }
