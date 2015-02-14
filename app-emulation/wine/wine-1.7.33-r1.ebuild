@@ -323,7 +323,8 @@ pkg_pretend() {
 
 pkg_setup() {
 	if use multislot; then
-		WINE_VARIANT=development-"${PV}"
+		WINE_VARIANT="${PN#wine}-${PV}"
+		WINE_VARIANT="${WINE_VARIANT#-}"
 		MY_PREFIX=/usr/lib/wine-"${WINE_VARIANT}"
 		MY_DATADIR="${MY_PREFIX}"
 		MY_MANDIR="${MY_DATADIR}"/man
@@ -338,15 +339,16 @@ pkg_setup() {
 
 src_unpack() {
 	if [[ ${PV} == "9999" ]] ; then
+		local pn=${PN//[-+]/_}
 		git-r3_src_unpack
 		if use staging || use pulseaudio; then
+			unset "${pn}_LIVE_REPO" "${pn}_LIVE_BRANCH" "${pn}_LIVE_COMMIT";
 			EGIT_REPO_URI="${STAGING_EGIT_REPO_URI}"
-			unset "${PN}_LIVE_REPO";
 			EGIT_CHECKOUT_DIR="${STAGING_DIR}" git-r3_src_unpack
 		fi
 		if use d3d9; then
+			unset "${pn}_LIVE_REPO" "${pn}_LIVE_BRANCH" "${pn}_LIVE_COMMIT";
 			EGIT_REPO_URI="${D3D9_EGIT_REPO_URI}"
-			unset "${PN}_LIVE_REPO";
 			EGIT_CHECKOUT_DIR="${D3D9_DIR}" git-r3_src_unpack
 		fi
 	else
