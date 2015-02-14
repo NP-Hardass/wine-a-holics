@@ -3,7 +3,7 @@
 <repositories xmlns="" version="1.0">
 <repo quality="experimental" status="unofficial">
 	<name>wine-a-holics</name>
-	<description>An overlay filled with lots of goodies for those hooked on WINE.</description>
+	<description>An overlay filled with lots of goodies for those who are hooked on WINE.</description>
 	<homepage>https://github.com/NP-Hardass/wine-a-holics</homepage>
 	<owner type="person">
 		<email>np.hardass@gmail.com</email>
