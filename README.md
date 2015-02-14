@@ -1,18 +1,18 @@
-Welcome to the Unofficial Wine Overlay!
+Welcome to the Wine-a-holics Overlay!
 =======================================
 
 Repoman Status: [![Build Status](https://travis-ci.org/NP-Hardass/wine-overlay.svg?branch=wine-a-holics)](https://travis-ci.org/NP-Hardass/wine-overlay)
 
 Goals
 -----
-This overlay strives to provide bleeding edge Wine and Wine related ebuilds,
-hopefully with them being accepted into the main Gentoo tree.  Additionally,
-we aim to improve ebuild quality, squash bugs, and implement a slotted Wine
-(exclusive for this overlay) that will enable users to use multiple
-versions of Wine, with and without Wine-Staging, at the same time.  We know
-that Wine sometimes includes regressions from version to version, so the
-the goal there is to allow you to switch and use whatever version(s) that
-your applications need.
+This overlay strives to provide bleeding edge Wine and Wine related ebuilds.
+As a sister project of wine-overlay, we aim to improve ebuild quality,
+squash bugs, and incorporate the kinds of features that users desire, like
+slotted Wine that enables users to use multiple versions of Wine, with and
+without Wine-Staging, at the same time.  We know that Wine sometimes includes
+regressions from version to version, so the the goal there is to allow you to
+switch and use whatever version(s) that your applications need. Additionally,
+the non-vanilla versions of wine also support Gallium Nine Direct3D9.
 
 Packages
 --------
@@ -42,7 +42,7 @@ If you haven’t used layman yet, just run these commands:
 
 Then you can add this overlay wih:
 
-	# layman -o https://raw.githubusercontent.com/NP-Hardass/wine-a-holics/master/overlay.xml -f -a wine-a-holics
+	# layman -o http://git.io/wine-overlays-xml -f -a wine-a-holics
 
 To sync the overlay via layman:
 
