@@ -370,7 +370,9 @@ src_prepare() {
 		"${FILESDIR}"/${MY_PN}-1.7.12-osmesa-check.patch #429386
 		"${FILESDIR}"/${MY_PN}-1.6-memset-O3.patch #480508
 	)
+	local STAGING_MAKE_ARGS="-W fonts-Missing_Fonts.ok"
 
+	use pipelight || STAGING_MAKE_ARGS="${STAGING_MAKE_ARGS} -W Pipelight.ok"
 	if use gstreamer; then
 		# See http://bugs.winehq.org/show_bug.cgi?id=30557
 		ewarn "Applying experimental patch to fix GStreamer support. Note that"
@@ -383,22 +385,21 @@ src_prepare() {
 		ewarn "by Wine developers. Please don't report bugs to Wine bugzilla"
 		ewarn "unless you can reproduce them with USE=-staging"
 
-		# Apply temporary patch to wine-staging to allow for epatch as a backend to wine-staging's new patch script
-		pushd "${STAGING_DIR}"
-		epatch "${FILESDIR}"/wine-staging-gentoo-epatch-support.patch
-		popd
+		# epatch doesn't support binary patches and we ship our own pulse patches
+		emake -C "${STAGING_DIR}/patches" \
+			$(echo ${STAGING_MAKE_ARGS}) \
+		    series
 
-		local STAGING_EXCLUDE=""
-		use pipelight || STAGING_EXCLUDE="${STAGING_EXCLUDE} -W Pipelight"
+		PATCHES+=( $(sed -e "s:^:${STAGING_DIR}/patches/:" \
+		    "${STAGING_DIR}/patches/series") )
 
-		# Launch wine-staging patcher in a subshell, using epatch as a backend, and gitapply.sh as a backend for binary patches
-		ebegin "Running Wine-Staging patch installer"
-		(
-			set -- DESTDIR="${S}" --backend=epatch --no-autoconf --all ${STAGING_EXCLUDE}
-			cd "${STAGING_DIR}/patches"
-			source "${STAGING_DIR}/patches/patchinstall.sh"
-		)
-		eend $?
+		# epatch doesn't support binary patches
+		ebegin "Applying Wine-Staging font patches"
+		for f in "${STAGING_DIR}/patches/fonts-Missing_Fonts"/*.patch; do
+			"../${STAGING_P}/debian/tools/gitapply.sh" < "${f}" \
+			    || die "Failed to apply ${f}"
+		done
+		eend
 	elif use pulseaudio; then
 		PATCHES+=( "${STAGING_DIR}/patches/winepulse-PulseAudio_Support"/*.patch )
 	fi
