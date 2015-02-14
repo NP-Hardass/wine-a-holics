@@ -38,7 +38,7 @@ If you haven’t used layman yet, just run these commands:
 
 Then you can add this overlay wih:
 
-	# layman -o https://raw.githubusercontent.com/NP-Hardass/wine-overlay/master/overlay.xml -f -a wine-overlay
+	# layman -o http://git.io/wine-overlays-xml -f -a wine-overlay
 
 To sync the overlay via layman:
 
