@@ -10,7 +10,8 @@ SRC_URI="http://bitbucket.org/eroen/${PN}/raw/v${PV}/wine.eselect -> wine.eselec
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="~amd64" # ~x86 ~x86-fbsd
+KEYWORDS="-* ~amd64 ~x86 ~x86-fbsd"
+
 IUSE=""
 
 RDEPEND="app-admin/eselect

@@ -14,7 +14,7 @@ SRC_URI="http://github.com/NP-Hardass/${PN}/archive/${PV//./}.tar.gz -> ${P}.tar
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS="~amd64" # ~x86 ~x86-fbsd
+KEYWORDS="-* ~amd64 ~x86 ~x86-fbsd"
 IUSE=""
 
 RDEPEND="!app-emulation/wine:0[-multislot(-)]"
