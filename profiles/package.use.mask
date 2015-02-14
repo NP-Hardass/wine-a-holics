@@ -1,2 +1,2 @@
 # To be removed altogether:
-app-emulation/wine-vanilla gstreamer pulseaudio staging
+app-emulation/wine-vanilla gstreamer pulseaudio staging pipelight s3tc d3d9
