@@ -53,11 +53,7 @@ else
 fi
 
 LICENSE="LGPL-2.1"
-if [ "${PN}" = "wine" ]; then
-	SLOT="${PV}"
-else
-	SLOT="0"
-fi
+SLOT="${PV}"
 IUSE="+abi_x86_32 +abi_x86_64 +alsa capi cups custom-cflags d3d9 dos elibc_glibc +fontconfig +gecko gphoto2 gsm gstreamer +jpeg +lcms ldap +mono mp3 multislot ncurses netapi nls odbc openal opencl +opengl osmesa oss +perl pcap pipelight +png +prelink pulseaudio +realtime +run-exes s3tc samba scanner selinux +ssl staging test +threads +truetype +udisks v4l +X +xcomposite xinerama +xml"
 REQUIRED_USE="|| ( abi_x86_32 abi_x86_64 )
 	test? ( abi_x86_32 )
