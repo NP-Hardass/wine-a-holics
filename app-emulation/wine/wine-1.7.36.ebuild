@@ -58,12 +58,11 @@ if [ "${PN}" = "wine" ]; then
 else
 	SLOT="0"
 fi
-IUSE="+abi_x86_32 +abi_x86_64 +alsa capi cups custom-cflags d3d9 dos elibc_glibc +fontconfig +gecko gphoto2 gsm gstreamer +jpeg +lcms ldap +mono mp3 multislot multiversion ncurses netapi nls odbc openal opencl +opengl osmesa oss +perl pcap pipelight +png +prelink pulseaudio +realtime +run-exes s3tc samba scanner selinux +ssl staging test +threads +truetype +udisks v4l +X +xcomposite xinerama +xml"
+IUSE="+abi_x86_32 +abi_x86_64 +alsa capi cups custom-cflags d3d9 dos elibc_glibc +fontconfig +gecko gphoto2 gsm gstreamer +jpeg +lcms ldap +mono mp3 multislot ncurses netapi nls odbc openal opencl +opengl osmesa oss +perl pcap pipelight +png +prelink pulseaudio +realtime +run-exes s3tc samba scanner selinux +ssl staging test +threads +truetype +udisks v4l +X +xcomposite xinerama +xml"
 REQUIRED_USE="|| ( abi_x86_32 abi_x86_64 )
 	test? ( abi_x86_32 )
 	elibc_glibc? ( threads )
 	mono? ( abi_x86_32 )
-	multiversion? ( multislot )
 	pipelight? ( staging )
 	s3tc? ( staging )
 	staging? ( perl )
@@ -267,10 +266,6 @@ RDEPEND="${COMMON_DEPEND}
 	!multislot? (
 		!app-emulation/wine-desktop-common
 		!!app-admin/eselect-wine
-	)
-	!multiversion? (
-		!<${CATEGORY}/${P}
-		!>${CATEGORY}/${P}
 	)
 	dos? ( games-emulation/dosbox )
 	perl? ( dev-lang/perl dev-perl/XML-Simple )
