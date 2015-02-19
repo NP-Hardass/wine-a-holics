@@ -355,6 +355,7 @@ src_unpack() {
 
 src_prepare() {
 	local md5="$(md5sum server/protocol.def)"
+	local f
 	local PATCHES=(
 		"${FILESDIR}"/${MY_PN}-1.5.26-winegcc.patch #260726
 		"${FILESDIR}"/${MY_PN}-1.4_rc2-multilib-portage.patch #395615
