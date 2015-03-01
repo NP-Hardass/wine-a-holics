@@ -41,13 +41,24 @@ for card in ${VIDEO_CARDS}; do
 	IUSE_VIDEO_CARDS+=" video_cards_${card}"
 done
 
+D3D9_P="mesa-d3d9-${PV}"
+D3D9_DIR="${WORKDIR}/mesa-d3d9-patches-${D3D9_P}"
+
+if [[ $PV == "9999" ]]; then
+	D3D9_EGIT_REPO_URI="git://github.com/NP-Hardass/mesa-d3d9-patches.git"
+else
+	SRC_URI="${SRC_URI}
+	ixit? ( https://github.com/NP-Hardass/mesa-d3d9-patches/archive/mesa-d3d9-${PV}.tar.gz -> ${D3D9_P}.tar.gz )"
+fi
+
 IUSE="${IUSE_VIDEO_CARDS}
-	bindist +classic d3d9 debug +dri3 +egl +gallium +gbm gles1 gles2 +llvm
-	+nptl opencl osmesa pax_kernel openmax pic r600-llvm-compiler selinux
-	+udev vaapi vdpau wayland xvmc xa kernel_FreeBSD"
+	bindist +classic d3d9 debug +dri3 +egl +gallium +gbm gles1 gles2 ixit
+	+llvm +nptl opencl osmesa pax_kernel openmax pic r600-llvm-compiler
+	selinux +udev vaapi vdpau wayland xvmc xa kernel_FreeBSD"
 
 REQUIRED_USE="
 	d3d9?   ( dri3 gallium )
+	ixit?   ( d3d9 )
 	llvm?   ( gallium )
 	opencl? (
 		gallium
@@ -189,9 +200,27 @@ pkg_setup() {
 	python-any-r1_pkg_setup
 }
 
+src_unpack() {
+	if [[ $PV == "9999" ]]; then
+		git-r3_src_unpack
+		if use ixit; then
+			local esc_pn
+			esc_pn=${PN//[-+]/_}
+			unset ${esc_pn}_LIVE_REPO ${esc_pn}_LIVE_BRANCH ${esc_pn}_LIVE_COMMIT
+			EGIT_REPO_URI=${D3D9_EGIT_REPO_URI}
+			EGIT_CHECKOUT_DIR=${D3D9_DIR} git-r3_src_unpack
+		fi
+	else
+		unpack ${MY_P}.tar.bz2
+		use ixit && unpack "{$D3D9_P}.tar.gz"
+	fi
+}
+
 src_prepare() {
 	# fix for hardened pax_kernel, bug 240956
 	[[ ${PV} != 9999* ]] && epatch "${FILESDIR}"/glx_ro_text_segm.patch
+
+	use ixit && epatch "${D3D9_DIR}/mesa-d3d9.patch"
 
 	eautoreconf
 }
