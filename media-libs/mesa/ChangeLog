@@ -1,3 +1,7 @@
+  01 Mar 2015; NP-Hardass <np.hardass@gmail.com> -Manifest, mesa-9999.ebuild,
+  metadata.xml:
+  Update Mesa from x11 overlay and add ixit flag for bleeding edge d3d9 support
+
   09 Feb 2015; NP-Hardass <np.hardass@gmail.com>
   +files/mesa-10.3.7-dont-use-clrsb.patch:
   Missing patch file
