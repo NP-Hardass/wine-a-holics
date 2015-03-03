@@ -24,8 +24,8 @@ else
 	S="${WORKDIR}/${MY_P}"
 fi
 
-GV="2.34"
-MV="4.5.4"
+GV="2.36"
+MV="4.5.6"
 STAGING_P="wine-staging-${PV}"
 STAGING_DIR="${WORKDIR}/${STAGING_P}"
 D3D9_P="wine-d3d9-${PV}"
