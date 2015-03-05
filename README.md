@@ -1,7 +1,7 @@
 Welcome to the Wine-a-holics Overlay!
 =======================================
 
-Repoman Status: [![Build Status](https://travis-ci.org/NP-Hardass/wine-overlay.svg?branch=wine-a-holics)](https://travis-ci.org/NP-Hardass/wine-overlay)
+Repoman Status: [![Build Status](https://travis-ci.org/NP-Hardass/wine-a-holics.svg?branch=master)](https://travis-ci.org/NP-Hardass/wine-a-holics)
 
 Goals
 -----
