@@ -1,29 +1,33 @@
-Welcome to the Unofficial Wine Overlay!
+Welcome to the Wine-a-holics Overlay!
 =======================================
 
-Repoman Status: [![Build Status](https://travis-ci.org/NP-Hardass/wine-overlay.svg?branch=d3d9)](https://travis-ci.org/NP-Hardass/wine-overlay)
+Repoman Status: [![Build Status](https://travis-ci.org/NP-Hardass/wine-a-holics.svg?branch=master)](https://travis-ci.org/NP-Hardass/wine-a-holics)
 
 Goals
 -----
-This overlay strives to provide bleeding edge Wine and Wine related ebuilds,
-hopefully with them being accepted into the main Gentoo tree.  Additionally,
-we aim to improve ebuild quality, squash bugs, and implement a slotted Wine
-(exclusive for this overlay) that will enable users to use multiple
-versions of Wine, with and without Wine-Staging, at the same time.  We know
-that Wine sometimes includes regressions from version to version, so the
-the goal there is to allow you to switch and use whatever version(s) that
-your applications need.
+This overlay strives to provide bleeding edge Wine and Wine related ebuilds.
+As a sister project of wine-overlay, we aim to improve ebuild quality,
+squash bugs, and incorporate the kinds of features that users desire, like
+slotted Wine that enables users to use multiple versions of Wine, with and
+without Wine-Staging, at the same time.  We know that Wine sometimes includes
+regressions from version to version, so the the goal there is to allow you to
+switch and use whatever version(s) that your applications need. Additionally,
+the non-vanilla versions of wine also support Gallium Nine Direct3D9.
 
 Packages
 --------
 
 This is a list of packages and any associated notes:
 
-| Package						| Description								| Notes															|
-| ----------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| [app-emulation/wine](app-emulation/wine)		| Free implementation of Windows(tm) on Unix				| Originally copied from Gentoo, dependency fixes, bug fixes, wine-staging support, and a functioning live ebuild	|
-| [app-emulation/winetricks](app-emulation/winetricks)	| Easy way to install DLLs needed to work around problems in Wine	| Originally copied from Gentoo, version bump										|
-| [media-libs/mesa](media-libs/mesa)			| OpenGL-like graphic library for Linux					| Originally copied from x11 overlay, live, includes d3d9, stripped all keywords except amd64 and x86			|
+| Package								| Description								| Notes															|
+| --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| [app-admin/eselect-wine](app-admin/eselect-wine)			| Manage active wine version						| Written by eroen, handles various multislot versions of Wine								|
+| [app-emulation/wine](app-emulation/wine)				| Free implementation of Windows(tm) on Unix				| Originally copied from Gentoo, dependency fixes, bug fixes, wine-staging support, and a functioning live ebuild	|
+| [app-emulation/wine-desktop-common](app-emulation/wine-desktop-common)| Various desktop menu items and icons for wine				| Forked from Tetromino's wine-gentoo tarball, originally from Ubuntu							|
+| [app-emulation/wine-staging](app-emulation/wine-staging)		| Free implementation of Windows(tm) on Unix				| Based on the ebuilds from the branches of wine-overlay, slotted wine, with wine-staging built-in			|
+| [app-emulation/wine-vanilla](app-emulation/wine-vanilla)		| Free implementation of Windows(tm) on Unix				| Based on the ebuilds from the branches of wine-overlay, slotted wine, all external patchsets disabled			|
+| [app-emulation/winetricks](app-emulation/winetricks)			| Easy way to install DLLs needed to work around problems in Wine	| Originally copied from Gentoo, version bump										|
+| [media-libs/mesa](media-libs/mesa)					| OpenGL-like graphic library for Linux					| Copied directly from the x11 overlay, live ebuild for those that want bleeding edge d3d9 support.			|
 
 Installation
 ------------
@@ -38,38 +42,16 @@ If you haven’t used layman yet, just run these commands:
 
 Then you can add this overlay wih:
 
-	# layman -o http://git.io/wine-overlays-xml -f -a wine-overlay
+	# layman -o http://git.io/wine-overlays-xml -f -a wine-a-holics
 
 To sync the overlay via layman:
 
-	# layman -s wine-overlay
+	# layman -s wine-a-holics
 
 To delete the overlay:
 
-	# layman -d wine-overlay
+	# layman -d wine-a-holics
 
 To sync the overlay via eix:
 
 	# eix-sync
-
-Branches
---------
-This overlay provides several branches for experimental features and
-features in development.  Many of these features are described in
-[Goals](#Goals). To take advantage of these branches, simply change
-directory to the overlay, and checkout the new branch.  Layman will
-continue to use this branch until you opt to switch back.
-
-Branches that users are likely to be interested in are:
-* `d3d9` for Gallium Nine Direct3D9 support
-* `slotted_wine` for Wine with support for multislot
-
-To switch to a branch called BRANCH:
-
-	# cd /var/lib/layman/wine-overlay
-	# git checkout BRANCH
-
-To switch back to the default branch:
-	
-	# cd /var/lib/layman/wine-overlay
-	# git checkout master
