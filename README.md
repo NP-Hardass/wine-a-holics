@@ -29,9 +29,11 @@ This is a list of packages and any associated notes:
 | [app-emulation/winetricks](app-emulation/winetricks)			| Easy way to install DLLs needed to work around problems in Wine	| Originally copied from Gentoo, version bump										|
 | [media-libs/mesa](media-libs/mesa)					| OpenGL-like graphic library for Linux					| Copied directly from the x11 overlay, live ebuild for those that want bleeding edge d3d9 support.			|
 
+
 Installation
 ------------
-
+Layman
+======
 Layman allows for the easy management of overlays.
 
 If you haven’t used layman yet, just run these commands:
@@ -40,18 +42,35 @@ If you haven’t used layman yet, just run these commands:
 	# echo "source /var/lib/layman/make.conf" >> /etc/make.conf
 	# layman -f
 
-Then you can add this overlay wih:
+Then you can add this overlay with:
 
-	# layman -o http://git.io/wine-overlays-xml -f -a wine-a-holics
+	# layman -a wine-a-holics
+
+	or
+
+	# layman -o https://git.io/wine-overlays-xml -f -a wine-a-holics
 
 To sync the overlay via layman:
 
-	# layman -s wine-a-holics
+	# layman -s wine-a-jolics
 
-To delete the overlay:
+Repos.conf
+==========
 
-	# layman -d wine-a-holics
+Alternatively, overlays can easily be installed by putting the wine-overlay.conf
+file in your /etc/portage/repos.conf/ directory:
+
+	# wget https://git.io/wine-a-holics-conf -O /etc/portage/repos.conf/wine-a-holics.conf
+
+To sync the overlay with this setup:
+
+	# emaint sync -r wine-a-holics
+
+
+eix
+===
 
 To sync the overlay via eix:
 
 	# eix-sync
+
