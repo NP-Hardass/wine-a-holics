@@ -1,3 +1,7 @@
+  07 Mar 2015; NP-Hardass <np.hardass@gmail.com> winetricks-20141130.ebuild,
+  winetricks-99999999.ebuild:
+  Sync with upstream Gentoo
+
   07 Mar 2015; NP-Hardass <np.hardass@gmail.com> winetricks-20141130.ebuild:
   Backport new git rebuild features to 20141130
 

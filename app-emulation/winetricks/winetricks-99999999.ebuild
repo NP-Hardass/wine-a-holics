@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Header: /var/cvsroot/gentoo-x86/app-emulation/winetricks/winetricks-99999999.ebuild,v 1.12 2015/03/07 22:22:23 tetromino Exp $
 
 EAPI=5
 
@@ -13,6 +13,7 @@ if [[ ${PV} == "99999999" ]] ; then
 else
 	SRC_URI="http://winetricks.org/download/releases/${P}.tar.gz"
 	KEYWORDS="~amd64 ~x86"
+	S="${WORKDIR}"
 fi
 wtg=winetricks-gentoo-2012.11.24
 SRC_URI="${SRC_URI}
@@ -43,8 +44,6 @@ QA_DESKTOP_FILE="usr/share/applications/winetricks.desktop"
 # Tests require network access and run wine, which is unreliable from a portage environment
 RESTRICT="test"
 
-S="${WORKDIR}"
-
 src_unpack() {
 	if [[ ${PV} == "99999999" ]] ; then
 		git-r3_src_unpack
@@ -59,7 +58,7 @@ src_unpack() {
 src_install() {
 	default
 	if use gtk || use kde; then
-		cd ${wtg} || die
+		cd "${WORKDIR}/${wtg}" || die
 		domenu winetricks.desktop
 		insinto /usr/share/icons/hicolor/scalable/apps
 		doins wine-winetricks.svg
