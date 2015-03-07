@@ -7,8 +7,9 @@ EAPI=5
 inherit gnome2-utils eutils
 
 if [[ ${PV} == "99999999" ]] ; then
-	ESVN_REPO_URI="http://winetricks.googlecode.com/svn/trunk"
-	inherit subversion
+	EGIT_REPO_URI="https://code.google.com/p/winetricks/"
+	inherit git-r3
+	SRC_URI=""
 else
 	SRC_URI="http://winetricks.org/download/releases/${P}.tar.gz"
 	KEYWORDS="~amd64 ~x86"
@@ -46,7 +47,7 @@ S="${WORKDIR}"
 
 src_unpack() {
 	if [[ ${PV} == "99999999" ]] ; then
-		subversion_src_unpack
+		git-r3_src_unpack
 		if use gtk || use kde; then
 			unpack ${wtg}.tar.bz2
 		fi
