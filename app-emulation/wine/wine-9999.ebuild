@@ -384,8 +384,7 @@ src_prepare() {
 				"${FILESDIR}/${PN}-1.7.38-gstreamer-v5-staging-post.patch" )
 		else
 			PATCHES+=( "${WORKDIR}/${GST_P}.patch" )
- 		fi
-
+		fi
 	fi
 	if use staging; then
 		ewarn "Applying the unofficial Wine-Staging patchset which is unsupported"
