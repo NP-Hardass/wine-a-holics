@@ -1,0 +1,11 @@
+# ChangeLog for app-emulation/swine
+# Copyright 1999-2015 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*swine-9999 (13 Mar 2015)
+*swine-1.0.4 (13 Mar 2015)
+
+  13 Mar 2015; NP-Hardass <np.hardass@gmail.com> +swine-1.0.4.ebuild, +swine-9999.ebuild,
+  +metadata.xml:
+  Initial version of ebuild
+

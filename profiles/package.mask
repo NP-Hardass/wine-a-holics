@@ -1,0 +1,4 @@
+# NP-Hardass <np.hardass@gmail.com> (12 Mar 2015)
+# Masked due to bugs and general program instability.
+# Use at your own risk.
+app-emulation/swine
