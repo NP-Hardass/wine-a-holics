@@ -2,6 +2,11 @@
 # Copyright 1999-2015 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  19 Mar 2015; eroen <gentoo-wine@eroen.eu> wine-1.7.33-r1.ebuild,
+  wine-1.7.34.ebuild, wine-1.7.35.ebuild, wine-1.7.36.ebuild,
+  wine-1.7.37.ebuild, wine-1.7.38.ebuild, wine-9999.ebuild:
+  Add blockers to ensure clean upgrades with USE=-multislot
+
 *wine-1.7.37 (22 Feb 2015)
 
   22 Feb 2015; NP-Hardass <np.hardass@gmail.com> +wine-1.7.37.ebuild,

@@ -262,6 +262,8 @@ RDEPEND="${COMMON_DEPEND}
 	!multislot? (
 		!app-emulation/wine-desktop-common
 		!!app-admin/eselect-wine
+		!<${CATEGORY}/${P}
+		!>${CATEGORY}/${P}
 	)
 	dos? ( games-emulation/dosbox )
 	perl? ( dev-lang/perl dev-perl/XML-Simple )
