@@ -456,12 +456,14 @@ multilib_src_configure() {
 		$(use_with udisks dbus)
 		$(use_with fontconfig)
 		$(use_with ssl gnutls)
+		$(use_enable gecko mshtml)
 		$(use_with gphoto2 gphoto)
 		$(use_with gsm)
 		$(use_with gstreamer)
 		--without-hal
 		$(use_with jpeg)
 		$(use_with ldap)
+		$(use_enable mono mscoree)
 		$(use_with mp3 mpg123)
 		$(use_with netapi)
 		$(use_with nls gettext)
@@ -589,6 +591,19 @@ pkg_postinst() {
 		gnome2_icon_cache_update
 	fi
 	fdo-mime_desktop_database_update
+
+	if ! use gecko; then
+		ewarn "Without Wine Gecko, wine prefixes will not have a default"
+		ewarn "implemntation of iexplore.  Many older windows applications"
+		ewarn "rely upon the existence of an iexplore implementation, so"
+		ewarn "you will likely need to install an external one, like via winetricks"
+	fi
+	if ! use mono; then
+		ewarn "Without Wine Mono, wine prefixes will not have a default"
+		ewarn "implemntation of .NET.  Many windows applications rely upon"
+		ewarn "the existence of a .NET implementation, so you will need"
+		ewarn "likely need to install an external one, like via winetricks"
+	fi
 }
 
 pkg_postrm() {
