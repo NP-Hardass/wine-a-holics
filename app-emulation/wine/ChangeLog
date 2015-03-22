@@ -2,6 +2,15 @@
 # Copyright 1999-2015 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*wine-1.7.39 (22 Mar 2015)
+
+  22 Mar 2015; NP-Hardass <np.hardass@gmail.com>
+  +files/wine-1.7.39-gstreamer-v5-staging-post.patch,
+  +files/wine-1.7.39-gstreamer-v5-staging-pre.patch, +wine-1.7.39.ebuild,
+  -files/wine-1.7.38-gstreamer-v5.patch, wine-9999.ebuild:
+  Version bump to 1.7.39.  Update 1.7.39 and 9999 with new gstreamer pre-post
+  patches GitHub #5
+
   19 Mar 2015; eroen <gentoo-wine@eroen.eu> wine-1.7.33-r1.ebuild,
   wine-1.7.34.ebuild, wine-1.7.35.ebuild, wine-1.7.36.ebuild,
   wine-1.7.37.ebuild, wine-1.7.38.ebuild, wine-9999.ebuild:
