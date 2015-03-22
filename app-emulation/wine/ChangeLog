@@ -2,6 +2,11 @@
 # Copyright 1999-2015 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  22 Mar 2015; NP-Hardass <np.hardass@gmail.com> wine-1.7.33-r1.ebuild,
+  wine-1.7.34.ebuild, wine-1.7.35.ebuild, wine-1.7.36.ebuild,
+  wine-1.7.37.ebuild:
+  Backport gstreamer code and perl code from gentoo
+
 *wine-1.7.39 (22 Mar 2015)
 
   22 Mar 2015; NP-Hardass <np.hardass@gmail.com>
