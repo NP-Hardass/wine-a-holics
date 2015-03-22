@@ -21,7 +21,7 @@ IUSE="winbind"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 DEPEND=""
-RDEPEND="app-emulation/wine
+RDEPEND="virtual/wine
 	app-arch/cabextract
 	app-arch/p7zip
 	app-arch/unzip
