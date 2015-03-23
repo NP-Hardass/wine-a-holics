@@ -584,15 +584,15 @@ pkg_postinst() {
 
 	if ! use gecko; then
 		ewarn "Without Wine Gecko, wine prefixes will not have a default"
-		ewarn "implemntation of iexplore.  Many older windows applications"
+		ewarn "implementation of iexplore.  Many older windows applications"
 		ewarn "rely upon the existence of an iexplore implementation, so"
 		ewarn "you will likely need to install an external one, like via winetricks"
 	fi
 	if ! use mono; then
 		ewarn "Without Wine Mono, wine prefixes will not have a default"
-		ewarn "implemntation of .NET.  Many windows applications rely upon"
-		ewarn "the existence of a .NET implementation, so you will need"
-		ewarn "likely need to install an external one, like via winetricks"
+		ewarn "implementation of .NET.  Many windows applications rely upon"
+		ewarn "the existence of a .NET implementation, so you will likely need"
+		ewarn "to install an external one, like via winetricks"
 	fi
 }
 
