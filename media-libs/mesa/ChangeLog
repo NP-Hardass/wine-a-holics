@@ -1,3 +1,6 @@
+  02 Apr 2015; NP-Hardass <np.hardass@gmail.com> mesa-9999.ebuild, metadata.xml:
+  Sync with latest changes in x11 overlay
+
   01 Mar 2015; NP-Hardass <np.hardass@gmail.com> mesa-9999.ebuild, metadata.xml:
   Update mesa from x11 overlay (4305e9d51bb7c848f127e2d7d5f3bdb585a13877)
 
