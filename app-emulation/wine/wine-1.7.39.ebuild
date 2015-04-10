@@ -41,7 +41,7 @@ SRC_URI="${SRC_URI}
 		abi_x86_64? ( mirror://sourceforge/${MY_PN}/Wine%20Gecko/${GV}/wine_gecko-${GV}-x86_64.msi )
 	)
 	mono? ( mirror://sourceforge/${MY_PN}/Wine%20Mono/${MV}/wine-mono-${MV}.msi )
-	gstreamer? ( http://dev.gentoo.org/~tetromino/distfiles/${PN}/${GST_P}.patch.bz2 )
+	gstreamer? ( http://dev.gentoo.org/~tetromino/distfiles/${MY_PN}/${GST_P}.patch.bz2 )
 	https://github.com/NP-Hardass/wine-desktop-common/archive/${WDC_V}.tar.gz -> ${WINE_DESKTOP_COMMON_P}.tar.gz"
 
 if [[ ${PV} == "9999" ]] ; then
@@ -383,9 +383,9 @@ src_prepare() {
 		# patch on top.
 		if use staging; then
 			PATCHES+=(
-				"${FILESDIR}/${PN}-1.7.39-gstreamer-v5-staging-pre.patch"
+				"${FILESDIR}/${MY_PN}-1.7.39-gstreamer-v5-staging-pre.patch"
 				"${WORKDIR}/${GST_P}.patch"
-				"${FILESDIR}/${PN}-1.7.39-gstreamer-v5-staging-post.patch" )
+				"${FILESDIR}/${MY_PN}-1.7.39-gstreamer-v5-staging-post.patch" )
 		else
 			PATCHES+=( "${WORKDIR}/${GST_P}.patch" )
 		fi
