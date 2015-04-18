@@ -323,13 +323,13 @@ pkg_setup() {
 	if use multislot; then
 		WINE_VARIANT="${PN#wine}-${PV}"
 		WINE_VARIANT="${WINE_VARIANT#-}"
-		MY_PREFIX=/usr/lib/wine-"${WINE_VARIANT}"
+		MY_PREFIX="${EROOT}"/usr/$(get_libdir)/wine-"${WINE_VARIANT}"
 		MY_DATADIR="${MY_PREFIX}"
 		MY_MANDIR="${MY_DATADIR}"/man
 	else
-		MY_PREFIX=/usr
-		MY_DATADIR=/usr/share
-		MY_MANDIR=/usr/share/man
+		MY_PREFIX="${EROOT}"/usr
+		MY_DATADIR="${EROOT}"/usr/share
+		MY_MANDIR="${EROOT}"/usr/share/man
 	fi
 
 	wine_build_environment_check || die
