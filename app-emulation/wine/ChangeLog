@@ -2,6 +2,11 @@
 # Copyright 1999-2015 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*wine-1.7.41 (21 Apr 2015)
+
+  21 Apr 2015; NP-Hardass <np.hardass@gmail.com> +wine-1.7.41.ebuild:
+  Version bump to 1.7.41
+
   10 Apr 2015; NP-Hardass <np.hardass@gmail.com> wine-1.7.38.ebuild,
   wine-1.7.39.ebuild, wine-1.7.40.ebuild, wine-9999.ebuild:
   Fix error when incorporating gstreamer fix in 1.7.38-9999.  Thanks to andre4s
