@@ -7,6 +7,7 @@
 
 # For each file modified
 git diff --cached --name-status | while read status file; do
+	[[ -e ${file} ]] || exit 0
 	# If an ebuild or a changelog
 	if [[ "${file}" =~ .ebuild$ ]] || [[ "${file}" =~ ChangeLog$ ]]; then
 		# Reset the header if need be
