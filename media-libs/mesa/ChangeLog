@@ -1,3 +1,6 @@
+  22 Apr 2015; NP-Hardass <np.hardass@gmail.com> mesa-9999.ebuild:
+  Remove keywords from live version.  Thanks to eroen.
+
   02 Apr 2015; NP-Hardass <np.hardass@gmail.com> mesa-9999.ebuild, metadata.xml:
   Sync with latest changes in x11 overlay
 
