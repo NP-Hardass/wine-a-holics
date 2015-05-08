@@ -18,7 +18,7 @@ KEYWORDS="-* ~amd64 ~x86 ~x86-fbsd"
 IUSE=""
 
 RDEPEND="!app-emulation/wine:0[-multislot(-)]"
-PDEPEND="app-admin/eselect-wine"
+PDEPEND="app-eselect/eselect-wine"
 
 # These use a non-standard "Wine" category, which is provided by
 # /etc/xdg/applications-merged/wine.menu
