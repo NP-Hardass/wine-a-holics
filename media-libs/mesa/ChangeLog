@@ -1,3 +1,6 @@
+  23 May 2015; NP-Hardass <np.hardass@gmail.com> mesa-9999.ebuild:
+  Patch from sarnex to allow EGIT_BRANCH, use at your own risk
+
   22 Apr 2015; NP-Hardass <np.hardass@gmail.com> mesa-9999.ebuild:
   Remove keywords from live version.  Thanks to eroen.
 

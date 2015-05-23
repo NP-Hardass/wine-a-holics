@@ -198,7 +198,7 @@ src_unpack() {
 		if use ixit; then
 			local esc_pn
 			esc_pn=${PN//[-+]/_}
-			unset ${esc_pn}_LIVE_REPO ${esc_pn}_LIVE_BRANCH ${esc_pn}_LIVE_COMMIT
+			unset ${esc_pn}_LIVE_REPO ${esc_pn}_LIVE_BRANCH ${esc_pn}_LIVE_COMMIT EGIT_COMMIT EGIT_BRANCH
 			EGIT_REPO_URI=${D3D9_EGIT_REPO_URI}
 			EGIT_CHECKOUT_DIR=${D3D9_DIR} git-r3_src_unpack
 		fi
