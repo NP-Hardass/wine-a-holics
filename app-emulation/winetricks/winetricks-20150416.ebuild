@@ -1,19 +1,18 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/app-emulation/winetricks/winetricks-99999999.ebuild,v 1.12 2015/03/07 22:22:23 tetromino Exp $
+# $Header: /var/cvsroot/gentoo-x86/app-emulation/winetricks/winetricks-20150416.ebuild,v 1.3 2015/06/04 18:59:05 kensington Exp $
 
 EAPI=5
 
 inherit gnome2-utils eutils
 
 if [[ ${PV} == "99999999" ]] ; then
-	EGIT_REPO_URI="https://code.google.com/p/winetricks/"
+	EGIT_REPO_URI="git://github.com/Winetricks/${PN}.git"
 	inherit git-r3
 	SRC_URI=""
 else
-	SRC_URI="http://winetricks.org/download/releases/${P}.tar.gz"
+	SRC_URI="https://github.com/Winetricks/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 	KEYWORDS="~amd64 ~x86"
-	S="${WORKDIR}"
 fi
 wtg=winetricks-gentoo-2012.11.24
 SRC_URI="${SRC_URI}
@@ -21,7 +20,7 @@ SRC_URI="${SRC_URI}
 	kde? ( http://dev.gentoo.org/~tetromino/distfiles/wine/${wtg}.tar.bz2 )"
 
 DESCRIPTION="Easy way to install DLLs needed to work around problems in Wine"
-HOMEPAGE="http://code.google.com/p/winetricks/ http://wiki.winehq.org/winetricks"
+HOMEPAGE="http://winetricks.org http://wiki.winehq.org/winetricks"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
@@ -35,7 +34,7 @@ RDEPEND="app-arch/cabextract
 	net-misc/wget
 	x11-misc/xdg-utils
 	gtk? ( gnome-extra/zenity )
-	kde? ( kde-base/kdialog )
+	kde? ( kde-apps/kdialog )
 	rar? ( app-arch/unrar )"
 
 # Uses non-standard "Wine" category, which is provided by app-emulation/wine; #451552
