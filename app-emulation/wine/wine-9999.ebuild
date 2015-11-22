@@ -419,9 +419,9 @@ src_prepare() {
 		einfo "server/protocol.def was patched; running tools/make_requests"
 		tools/make_requests || die #432348
 	fi
-	sed -i '/^UPDATE_DESKTOP_DATABASE/s:=.*:=true:' tools/Makefile.in || die
+	sed -i '/^UPDATE_DESKTOP_DATABASE/s:=.*:=true:' loader/Makefile.in || die
 	if ! use run-exes; then
-		sed -i '/^MimeType/d' tools/wine.desktop || die #117785
+		sed -i '/^MimeType/d' loader/wine.desktop || die #117785
 	fi
 
 	if use multislot; then
