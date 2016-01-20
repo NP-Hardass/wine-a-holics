@@ -52,7 +52,7 @@ Then you can add this overlay with:
 
 To sync the overlay via layman:
 
-	# layman -s wine-a-jolics
+	# layman -s wine-a-holics
 
 Repos.conf
 ==========
