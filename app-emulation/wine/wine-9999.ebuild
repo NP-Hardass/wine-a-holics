@@ -1,6 +1,6 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 EAPI="5"
 
@@ -8,40 +8,39 @@ AUTOTOOLS_AUTORECONF=1
 PLOCALES="ar bg ca cs da de el en en_US eo es fa fi fr he hi hr hu it ja ko lt ml nb_NO nl or pa pl pt_BR pt_PT rm ro ru sk sl sr_RS@cyrillic sr_RS@latin sv te th tr uk wa zh_CN zh_TW"
 PLOCALE_BACKUP="en"
 
-inherit autotools-utils eutils fdo-mime flag-o-matic gnome2-utils l10n multilib multilib-minimal pax-utils toolchain-funcs virtualx
+inherit autotools-utils eutils fdo-mime flag-o-matic gnome2-utils l10n multilib multilib-minimal pax-utils toolchain-funcs virtualx versionator
 
 MY_PN="wine"
 if [[ ${PV} == "9999" ]] ; then
-	EGIT_REPO_URI="git://source.winehq.org/git/wine.git"
+	EGIT_REPO_URI="git://source.winehq.org/git/wine.git http://source.winehq.org/git/wine.git"
 	EGIT_BRANCH="master"
 	inherit git-r3
 	SRC_URI=""
 	#KEYWORDS=""
 else
-	MY_P="${MY_PN}-${PV/_/-}"
-	SRC_URI="mirror://sourceforge/${MY_PN}/Source/${MY_P}.tar.bz2"
+	MY_P="${MY_PN}-${MY_PV/_/-}"
+	MAJOR_V=$(get_version_component_range 1-2)
+	SRC_URI="https://dl.winehq.org/${MY_PN}/source/${MAJOR_V}/${MY_P}.tar.bz2"
 	KEYWORDS="-* ~amd64 ~x86 ~x86-fbsd"
 	S="${WORKDIR}/${MY_P}"
 fi
 
-GV="2.36"
-MV="4.5.6"
+GV="2.44"
+MV="4.6.0"
 STAGING_P="wine-staging-${PV}"
 STAGING_DIR="${WORKDIR}/${STAGING_P}"
 D3D9_P="wine-d3d9-${PV}"
 D3D9_DIR="${WORKDIR}/wine-d3d9-patches-${D3D9_P}"
 WDC_V="20150204"
 WINE_DESKTOP_COMMON_P="wine-desktop-common-${WDC_V}"
-GST_P="wine-1.7.34-gstreamer-v5"
 DESCRIPTION="Free implementation of Windows(tm) on Unix"
 HOMEPAGE="http://www.winehq.org/"
 SRC_URI="${SRC_URI}
 	gecko? (
-		abi_x86_32? ( mirror://sourceforge/${MY_PN}/Wine%20Gecko/${GV}/wine_gecko-${GV}-x86.msi )
-		abi_x86_64? ( mirror://sourceforge/${MY_PN}/Wine%20Gecko/${GV}/wine_gecko-${GV}-x86_64.msi )
+		abi_x86_32? ( https://dl.winehq.org/${MY_PN}/wine-gecko/${GV}/wine_gecko-${GV}-x86.msi )
+		abi_x86_64? ( https://dl.winehq.org/${MY_PN}/wine-gecko/${GV}/wine_gecko-${GV}-x86_64.msi )
 	)
-	mono? ( mirror://sourceforge/${MY_PN}/Wine%20Mono/${MV}/wine-mono-${MV}.msi )
-	gstreamer? ( http://dev.gentoo.org/~tetromino/distfiles/${MY_PN}/${GST_P}.patch.bz2 )
+	mono? ( https://dl.winehq.org/${MY_PN}/wine-mono/${MV}/wine-mono-${MV}.msi )
 	https://github.com/NP-Hardass/wine-desktop-common/archive/${WDC_V}.tar.gz -> ${WINE_DESKTOP_COMMON_P}.tar.gz"
 
 if [[ ${PV} == "9999" ]] ; then
@@ -50,13 +49,12 @@ if [[ ${PV} == "9999" ]] ; then
 else
 	SRC_URI="${SRC_URI}
 	staging? ( https://github.com/wine-compholio/wine-staging/archive/v${PV}.tar.gz -> ${STAGING_P}.tar.gz )
-	pulseaudio? ( https://github.com/wine-compholio/wine-staging/archive/v${PV}.tar.gz -> ${STAGING_P}.tar.gz )
 	d3d9? ( https://github.com/NP-Hardass/wine-d3d9-patches/archive/wine-d3d9-${PV}.tar.gz -> ${D3D9_P}.tar.gz )"
 fi
 
 LICENSE="LGPL-2.1"
 SLOT="${PV}"
-IUSE="+abi_x86_32 +abi_x86_64 +alsa capi cups custom-cflags d3d9 dos elibc_glibc +fontconfig +gecko gphoto2 gsm gstreamer +jpeg +lcms ldap +mono mp3 multislot ncurses netapi nls odbc openal opencl +opengl osmesa oss +perl pcap pipelight +png +prelink pulseaudio +realtime +run-exes s3tc samba scanner selinux +ssl staging test +threads +truetype +udisks v4l vaapi +X +xcomposite xinerama +xml"
+IUSE="+abi_x86_32 +abi_x86_64 +alsa capi cups custom-cflags d3d9 dos elibc_glibc +fontconfig +gecko gphoto2 gsm gstreamer +jpeg +lcms ldap +mono mp3 multislot ncurses netapi nls odbc openal opencl +opengl osmesa oss +perl pcap pipelight +png prelink pulseaudio +realtime +run-exes s3tc samba scanner selinux +ssl staging test +threads +truetype +udisks v4l vaapi +X +xcomposite xinerama +xml"
 REQUIRED_USE="|| ( abi_x86_32 abi_x86_64 )
 	test? ( abi_x86_32 )
 	elibc_glibc? ( threads )
@@ -70,189 +68,71 @@ REQUIRED_USE="|| ( abi_x86_32 abi_x86_64 )
 # or fail due to Xvfb's opengl limitations.
 RESTRICT="test"
 
-NATIVE_DEPEND="
-	truetype? ( >=media-libs/freetype-2.0.0  )
-	capi? ( net-dialup/capi4k-utils )
-	d3d9? ( media-libs/mesa[d3d9] )
-	ncurses? ( >=sys-libs/ncurses-5.2:= )
-	udisks? ( sys-apps/dbus )
-	fontconfig? ( media-libs/fontconfig:= )
-	gphoto2? ( media-libs/libgphoto2:= )
-	openal? ( media-libs/openal:= )
-	gstreamer? ( media-libs/gstreamer:0.10 media-libs/gst-plugins-base:0.10 )
-	X? (
-		x11-libs/libXcursor
-		x11-libs/libXext
-		x11-libs/libXrandr
-		x11-libs/libXi
-		x11-libs/libXxf86vm
-	)
-	xinerama? ( x11-libs/libXinerama )
-	alsa? ( media-libs/alsa-lib )
-	cups? ( net-print/cups:= )
-	opencl? ( virtual/opencl )
-	opengl? (
-		virtual/glu
-		virtual/opengl
-	)
-	gsm? ( media-sound/gsm:= )
-	jpeg? ( virtual/jpeg:0= )
-	ldap? ( net-nds/openldap:= )
-	lcms? ( media-libs/lcms:2= )
-	mp3? ( >=media-sound/mpg123-1.5.0 )
-	netapi? ( net-fs/samba[netapi(+)] )
-	nls? ( sys-devel/gettext )
-	odbc? ( dev-db/unixODBC:= )
-	osmesa? ( media-libs/mesa[osmesa] )
-	pcap? ( net-libs/libpcap )
-	staging? ( sys-apps/attr )
-	pulseaudio? ( media-sound/pulseaudio )
-	xml? ( dev-libs/libxml2 dev-libs/libxslt )
-	scanner? ( media-gfx/sane-backends:= )
-	ssl? ( net-libs/gnutls:= )
-	png? ( media-libs/libpng:0= )
-	v4l? ( media-libs/libv4l )
-	vaapi? ( x11-libs/libva[X] )
-	xcomposite? ( x11-libs/libXcomposite )"
-
 COMMON_DEPEND="
-	!amd64? ( ${NATIVE_DEPEND} )
-	amd64? (
-		abi_x86_64? ( ${NATIVE_DEPEND} )
-		abi_x86_32? (
-			truetype? ( || (
-				>=app-emulation/emul-linux-x86-xlibs-2.1[development,-abi_x86_32(-)]
-				>=media-libs/freetype-2.5.0.1[abi_x86_32(-)]
-			) )
-			ncurses? ( || (
-				app-emulation/emul-linux-x86-baselibs[development,-abi_x86_32(-)]
-				>=sys-libs/ncurses-5.9-r3[abi_x86_32(-)]
-			) )
-			udisks? ( || (
-				>=app-emulation/emul-linux-x86-baselibs-20130224[development,-abi_x86_32(-)]
-				>=sys-apps/dbus-1.6.18-r1[abi_x86_32(-)]
-			) )
-			fontconfig? ( || (
-				app-emulation/emul-linux-x86-xlibs[development,-abi_x86_32(-)]
-				>=media-libs/fontconfig-2.10.92[abi_x86_32(-)]
-			) )
-			gphoto2? ( || (
-				app-emulation/emul-linux-x86-medialibs[development,-abi_x86_32(-)]
-				>=media-libs/libgphoto2-2.5.3.1[abi_x86_32(-)]
-			) )
-			openal? ( || (
-				app-emulation/emul-linux-x86-sdl[development,-abi_x86_32(-)]
-				>=media-libs/openal-1.15.1[abi_x86_32(-)]
-			) )
-			gstreamer? ( || (
-				app-emulation/emul-linux-x86-medialibs[development,-abi_x86_32(-)]
-				(
-					>=media-libs/gstreamer-0.10.36-r2:0.10[abi_x86_32(-)]
-					>=media-libs/gst-plugins-base-0.10.36:0.10[abi_x86_32(-)]
-				)
-			) )
-			X? ( || (
-				app-emulation/emul-linux-x86-xlibs[development,-abi_x86_32(-)]
-				(
-					>=x11-libs/libXcursor-1.1.14[abi_x86_32(-)]
-					>=x11-libs/libXext-1.3.2[abi_x86_32(-)]
-					>=x11-libs/libXrandr-1.4.2[abi_x86_32(-)]
-					>=x11-libs/libXi-1.7.2[abi_x86_32(-)]
-					>=x11-libs/libXxf86vm-1.1.3[abi_x86_32(-)]
-				)
-			) )
-			xinerama? ( || (
-				app-emulation/emul-linux-x86-xlibs[development,-abi_x86_32(-)]
-				>=x11-libs/libXinerama-1.1.3[abi_x86_32(-)]
-			) )
-			alsa? ( || (
-				app-emulation/emul-linux-x86-soundlibs[alsa,development,-abi_x86_32(-)]
-				>=media-libs/alsa-lib-1.0.27.2[abi_x86_32(-)]
-			) )
-			cups? ( || (
-				app-emulation/emul-linux-x86-baselibs
-				>=net-print/cups-1.7.1-r1[abi_x86_32(-)]
-			) )
-			opencl? ( >=virtual/opencl-0-r3[abi_x86_32(-)] )
-			opengl? ( || (
-				app-emulation/emul-linux-x86-opengl[development,-abi_x86_32(-)]
-				(
-					>=virtual/glu-9.0-r1[abi_x86_32(-)]
-					>=virtual/opengl-7.0-r1[abi_x86_32(-)]
-				)
-			) )
-			d3d9? ( media-libs/mesa[d3d9,abi_x86_32(-)] )
-			gsm? ( || (
-				app-emulation/emul-linux-x86-soundlibs[development,-abi_x86_32(-)]
-				>=media-sound/gsm-1.0.13-r1[abi_x86_32(-)]
-			) )
-			jpeg? ( || (
-				app-emulation/emul-linux-x86-baselibs[development,-abi_x86_32(-)]
-				>=virtual/jpeg-0-r2:0[abi_x86_32(-)]
-			) )
-			ldap? ( || (
-				app-emulation/emul-linux-x86-baselibs[development,-abi_x86_32(-)]
-				>=net-nds/openldap-2.4.38-r1:=[abi_x86_32(-)]
-			) )
-			lcms? ( || (
-				app-emulation/emul-linux-x86-baselibs[development,-abi_x86_32(-)]
-				>=media-libs/lcms-2.5:2[abi_x86_32(-)]
-			) )
-			mp3? ( || (
-				app-emulation/emul-linux-x86-soundlibs[development,-abi_x86_32(-)]
-				>=media-sound/mpg123-1.15.4[abi_x86_32(-)]
-			) )
-			netapi? ( >=net-fs/samba-3.6.23-r1[netapi(+),abi_x86_32(-)] )
-			nls? ( || (
-				app-emulation/emul-linux-x86-baselibs[development,-abi_x86_32(-)]
-				>=sys-devel/gettext-0.18.3.2[abi_x86_32(-)]
-			) )
-			odbc? ( || (
-				app-emulation/emul-linux-x86-db[development,-abi_x86_32(-)]
-				>=dev-db/unixODBC-2.3.2:=[abi_x86_32(-)]
-			) )
-			osmesa? ( || (
-				>=app-emulation/emul-linux-x86-opengl-20121028[development,-abi_x86_32(-)]
-				>=media-libs/mesa-9.1.6[osmesa,abi_x86_32(-)]
-			) )
-			pcap? ( net-libs/libpcap[abi_x86_32(-)] )
-			pulseaudio? ( || (
-				app-emulation/emul-linux-x86-soundlibs[development,-abi_x86_32(-)]
-				>=media-sound/pulseaudio-5.0[abi_x86_32(-)]
-			) )
-			staging? ( || (
-				app-emulation/emul-linux-x86-baselibs[development,-abi_x86_32(-)]
-				>=sys-apps/attr-2.4.47-r1[abi_x86_32(-)]
-			) )
-			xml? ( || (
-				>=app-emulation/emul-linux-x86-baselibs-20131008[development,-abi_x86_32(-)]
-				(
-					>=dev-libs/libxml2-2.9.1-r4[abi_x86_32(-)]
-					>=dev-libs/libxslt-1.1.28-r1[abi_x86_32(-)]
-				)
-			) )
-			scanner? ( || (
-				app-emulation/emul-linux-x86-medialibs[development,-abi_x86_32(-)]
-				>=media-gfx/sane-backends-1.0.23:=[abi_x86_32(-)]
-			) )
-			ssl? ( || (
-				app-emulation/emul-linux-x86-baselibs[development,-abi_x86_32(-)]
-				>=net-libs/gnutls-2.12.23-r6:=[abi_x86_32(-)]
-			) )
-			png? ( || (
-				app-emulation/emul-linux-x86-baselibs[development,-abi_x86_32(-)]
-				>=media-libs/libpng-1.6.10:0[abi_x86_32(-)]
-			) )
-			v4l? ( || (
-				app-emulation/emul-linux-x86-medialibs[development,-abi_x86_32(-)]
-				>=media-libs/libv4l-0.9.5[abi_x86_32(-)]
-			) )
-			vaapi? ( x11-libs/libva[X,abi_x86_32(-)] )
-			xcomposite? ( || (
-				app-emulation/emul-linux-x86-xlibs[development,-abi_x86_32(-)]
-				>=x11-libs/libXcomposite-0.4.4-r1[abi_x86_32(-)]
-			) )
-		)
+	truetype? ( >=media-libs/freetype-2.0.0[${MULTILIB_USEDEP}] )
+	capi? ( net-dialup/capi4k-utils )
+	d3d9? ( media-libs/mesa[d3d9,${MULTILIB_USEDEP}] )
+	ncurses? ( >=sys-libs/ncurses-5.2:0=[${MULTILIB_USEDEP}] )
+	udisks? ( sys-apps/dbus[${MULTILIB_USEDEP}] )
+	fontconfig? ( media-libs/fontconfig:=[${MULTILIB_USEDEP}] )
+	gphoto2? ( media-libs/libgphoto2:=[${MULTILIB_USEDEP}] )
+	openal? ( media-libs/openal:=[${MULTILIB_USEDEP}] )
+	gstreamer? (
+		media-libs/gstreamer:1.0[${MULTILIB_USEDEP}]
+		media-plugins/gst-plugins-meta:1.0[${MULTILIB_USEDEP}]
+	)
+	X? (
+		x11-libs/libXcursor[${MULTILIB_USEDEP}]
+		x11-libs/libXext[${MULTILIB_USEDEP}]
+		x11-libs/libXrandr[${MULTILIB_USEDEP}]
+		x11-libs/libXi[${MULTILIB_USEDEP}]
+		x11-libs/libXxf86vm[${MULTILIB_USEDEP}]
+	)
+	xinerama? ( x11-libs/libXinerama[${MULTILIB_USEDEP}] )
+	alsa? ( media-libs/alsa-lib[${MULTILIB_USEDEP}] )
+	cups? ( net-print/cups:=[${MULTILIB_USEDEP}] )
+	opencl? ( virtual/opencl[${MULTILIB_USEDEP}] )
+	opengl? (
+		virtual/glu[${MULTILIB_USEDEP}]
+		virtual/opengl[${MULTILIB_USEDEP}]
+	)
+	gsm? ( media-sound/gsm:=[${MULTILIB_USEDEP}] )
+	jpeg? ( virtual/jpeg:0=[${MULTILIB_USEDEP}] )
+	ldap? ( net-nds/openldap:=[${MULTILIB_USEDEP}] )
+	lcms? ( media-libs/lcms:2=[${MULTILIB_USEDEP}] )
+	mp3? ( >=media-sound/mpg123-1.5.0[${MULTILIB_USEDEP}] )
+	netapi? ( net-fs/samba[netapi(+),${MULTILIB_USEDEP}] )
+	nls? ( sys-devel/gettext[${MULTILIB_USEDEP}] )
+	odbc? ( dev-db/unixODBC:=[${MULTILIB_USEDEP}] )
+	osmesa? ( media-libs/mesa[osmesa,${MULTILIB_USEDEP}] )
+	pcap? ( net-libs/libpcap[${MULTILIB_USEDEP}] )
+	pulseaudio? ( media-sound/pulseaudio[${MULTILIB_USEDEP}] )
+	staging? ( sys-apps/attr[${MULTILIB_USEDEP}] )
+	xml? (
+		dev-libs/libxml2[${MULTILIB_USEDEP}]
+		dev-libs/libxslt[${MULTILIB_USEDEP}]
+	)
+	scanner? ( media-gfx/sane-backends:=[${MULTILIB_USEDEP}] )
+	ssl? ( net-libs/gnutls:=[${MULTILIB_USEDEP}] )
+	png? ( media-libs/libpng:0=[${MULTILIB_USEDEP}] )
+	v4l? ( media-libs/libv4l[${MULTILIB_USEDEP}] )
+	vaapi? ( x11-libs/libva[X,${MULTILIB_USEDEP}] )
+	xcomposite? ( x11-libs/libXcomposite[${MULTILIB_USEDEP}] )
+	abi_x86_32? (
+		!app-emulation/emul-linux-x86-baselibs[-abi_x86_32(-)]
+		!<app-emulation/emul-linux-x86-baselibs-20140508-r14
+		!app-emulation/emul-linux-x86-db[-abi_x86_32(-)]
+		!<app-emulation/emul-linux-x86-db-20140508-r3
+		!app-emulation/emul-linux-x86-medialibs[-abi_x86_32(-)]
+		!<app-emulation/emul-linux-x86-medialibs-20140508-r6
+		!app-emulation/emul-linux-x86-opengl[-abi_x86_32(-)]
+		!<app-emulation/emul-linux-x86-opengl-20140508-r1
+		!app-emulation/emul-linux-x86-sdl[-abi_x86_32(-)]
+		!<app-emulation/emul-linux-x86-sdl-20140508-r1
+		!app-emulation/emul-linux-x86-soundlibs[-abi_x86_32(-)]
+		!<app-emulation/emul-linux-x86-soundlibs-20140508
+		!app-emulation/emul-linux-x86-xlibs[-abi_x86_32(-)]
+		!<app-emulation/emul-linux-x86-xlibs-20140508
 	)"
 
 RDEPEND="${COMMON_DEPEND}
@@ -278,7 +158,6 @@ RDEPEND="${COMMON_DEPEND}
 # tools/make_requests requires perl
 DEPEND="${COMMON_DEPEND}
 	staging? ( dev-lang/perl dev-perl/XML-Simple )
-	amd64? ( abi_x86_32? ( !abi_x86_64? ( ${NATIVE_DEPEND} ) ) )
 	X? (
 		x11-proto/inputproto
 		x11-proto/xextproto
@@ -300,6 +179,21 @@ usr/share/applications/wine-winecfg.desktop"
 
 wine_build_environment_check() {
 	[[ ${MERGE_TYPE} = "binary" ]] && return 0
+
+	# bug #549768
+	if use abi_x86_64 && [[ $(gcc-major-version) = 5 && $(gcc-minor-version) -le 2 ]]; then
+		einfo "Checking for gcc-5 ms_abi compiler bug ..."
+		$(tc-getCC) -O2 "${FILESDIR}"/pr66838.c -o "${T}"/pr66838 || die
+		# Run in subshell to prevent "Aborted" message
+		if ! ( "${T}"/pr66838 || false ) >/dev/null 2>&1; then
+			eerror "64-bit wine cannot be built with gcc-5.1 or initial patchset of 5.2.0"
+			eerror "due to compiler bugs; please re-emerge the latest gcc-5.2.x ebuild,"
+			eerror "or use gcc-config to select a different compiler version."
+			eerror "See https://bugs.gentoo.org/549768"
+			eerror
+			return 1
+		fi
+	fi
 
 	if use abi_x86_64 && [[ $(( $(gcc-major-version) * 100 + $(gcc-minor-version) )) -lt 404 ]]; then
 		eerror "You need gcc-4.4+ to build 64-bit wine"
@@ -337,12 +231,24 @@ pkg_setup() {
 
 src_unpack() {
 	if [[ ${PV} == "9999" ]] ; then
-		local pn=${PN//[-+]/_}
+		local pn="${PN//[-+]/_}"
 		git-r3_src_unpack
-		if use staging || use pulseaudio; then
-			unset "${pn}_LIVE_REPO" "${pn}_LIVE_BRANCH" "${pn}_LIVE_COMMIT";
+		if use staging; then
+			local WINE_COMMIT="${EGIT_VERSION}"
+
 			EGIT_REPO_URI="${STAGING_EGIT_REPO_URI}"
+			unset "${pn}_LIVE_REPO" "${pn}_LIVE_BRANCH" "${pn}_LIVE_COMMIT";
+			unset EGIT_COMMIT;
+
 			EGIT_CHECKOUT_DIR="${STAGING_DIR}" git-r3_src_unpack
+
+			local STAGING_COMMIT=$("${STAGING_DIR}/patches/patchinstall.sh" --upstream-commit) || die
+
+			if [[ "${WINE_COMMIT}" != "${STAGING_COMMIT}" ]]; then
+				einfo "The current Staging patchset is not guaranteed to apply on this WINE commit."
+				einfo "If src_prepare fails, try emerging with the env var EGIT_COMMIT."
+				einfo "Example: EGIT_COMMIT=${STAGING_COMMIT} emerge -1 wine"
+			fi
 		fi
 		if use d3d9; then
 			unset "${pn}_LIVE_REPO" "${pn}_LIVE_BRANCH" "${pn}_LIVE_COMMIT";
@@ -351,12 +257,11 @@ src_unpack() {
 		fi
 	else
 		unpack ${MY_P}.tar.bz2
-		use staging || use pulseaudio && unpack "${STAGING_P}.tar.gz"
+		use staging && unpack "${STAGING_P}.tar.gz"
 		use d3d9 && unpack "${D3D9_P}.tar.gz"
 	fi
 
 	unpack "${WINE_DESKTOP_COMMON_P}.tar.gz"
-	use gstreamer && unpack "${GST_P}.patch.bz2"
 
 	l10n_find_plocales_changes "${S}/po" "" ".po"
 }
@@ -365,35 +270,13 @@ src_prepare() {
 	local md5="$(md5sum server/protocol.def)"
 	local PATCHES=(
 		"${FILESDIR}"/${MY_PN}-1.5.26-winegcc.patch #260726
-		"${FILESDIR}"/${MY_PN}-1.4_rc2-multilib-portage.patch #395615
+		"${FILESDIR}"/${MY_PN}-1.9.5-multilib-portage.patch #395615
 		"${FILESDIR}"/${MY_PN}-1.7.12-osmesa-check.patch #429386
 		"${FILESDIR}"/${MY_PN}-1.6-memset-O3.patch #480508
 	)
-
-	if use gstreamer; then
-		# See http://bugs.winehq.org/show_bug.cgi?id=30557
-		ewarn "Applying experimental patch to fix GStreamer support. Note that"
-		ewarn "this patch has been reported to cause crashes in certain games."
-
-		# Wine-Staging 1.7.38 "ntdll: Fix race-condition when threads are killed
-		# during shutdown" patch and "Added patch to implement shared memory
-		# wineserver communication for various user32 functions" prevents the
-		# gstreamer patch from applying cleanly.
-		# So undo the staging patch, apply gstreamer, then re-apply rebased staging
-		# patch on top.
-		if use staging; then
-			PATCHES+=(
-				"${FILESDIR}/${MY_PN}-1.7.39-gstreamer-v5-staging-pre.patch"
-				"${WORKDIR}/${GST_P}.patch"
-				"${FILESDIR}/${MY_PN}-1.7.39-gstreamer-v5-staging-post.patch" )
-		else
-			PATCHES+=( "${WORKDIR}/${GST_P}.patch" )
-		fi
-	fi
 	if use staging; then
-		ewarn "Applying the unofficial Wine-Staging patchset which is unsupported"
-		ewarn "by Wine developers. Please don't report bugs to Wine bugzilla"
-		ewarn "unless you can reproduce them with USE=-staging"
+		ewarn "Applying the Wine-Staging patchset. Any bug reports to the"
+		ewarn "Wine bugzilla should explicitly state that staging was used."
 
 		local STAGING_EXCLUDE=""
 		use pipelight || STAGING_EXCLUDE="${STAGING_EXCLUDE} -W Pipelight"
@@ -406,8 +289,6 @@ src_prepare() {
 			source "${STAGING_DIR}/patches/patchinstall.sh"
 		)
 		eend $?
-	elif use pulseaudio; then
-		PATCHES+=( "${STAGING_DIR}/patches/winepulse-PulseAudio_Support"/*.patch )
 	fi
 	if use d3d9; then
 		PATCHES+=( "${D3D9_DIR}/wine-d3d9.patch" )
@@ -421,12 +302,12 @@ src_prepare() {
 	fi
 	sed -i '/^UPDATE_DESKTOP_DATABASE/s:=.*:=true:' tools/Makefile.in || die
 	if ! use run-exes; then
-		sed -i '/^MimeType/d' tools/wine.desktop || die #117785
+		sed -i '/^MimeType/d' loader/wine.desktop || die #117785
 	fi
 
 	if use multislot; then
 		sed -e "/^Exec=/s/wine /wine-${WINE_VARIANT} /" \
-			-i tools/wine.desktop || die
+			-i loader/wine.desktop || die
 	fi
 
 	# hi-res default icon, #472990, http://bugs.winehq.org/show_bug.cgi?id=24652
@@ -474,6 +355,7 @@ multilib_src_configure() {
 		$(use_with oss)
 		$(use_with pcap)
 		$(use_with png)
+		$(use_with pulseaudio pulse)
 		$(use_with threads pthread)
 		$(use_with scanner sane)
 		$(use_enable test tests)
@@ -486,9 +368,6 @@ multilib_src_configure() {
 		$(use_with xml xslt)
 	)
 
-	if use pulseaudio || use staging; then
-		myconf+=( $(use_with pulseaudio pulse) )
-	fi
 	use staging && myconf+=(
 		--with-xattr
 		$(use_with vaapi va)
