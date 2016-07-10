@@ -5,14 +5,13 @@ Repoman Status: [![Build Status](https://travis-ci.org/NP-Hardass/wine-a-holics.
 
 Goals
 -----
-This overlay strives to provide bleeding edge Wine and Wine related ebuilds.
-As a sister project of wine-overlay, we aim to improve ebuild quality,
-squash bugs, and incorporate the kinds of features that users desire, like
-slotted Wine that enables users to use multiple versions of Wine, with and
+This overlay strives to provide a testbed for new features for Gentoo's Wine packaging.
+Currently, this consists of a patchset on top of Gentoo's ebuilds that allows for
+slotted Wine enabling users to install and use multiple versions of Wine, with and
 without Wine-Staging, at the same time.  We know that Wine sometimes includes
 regressions from version to version, so the the goal there is to allow you to
 switch and use whatever version(s) that your applications need. Additionally,
-the non-vanilla versions of wine also support Gallium Nine Direct3D9.
+as with Gentoo's ebuilds, the non-vanilla versions of wine also support Gallium Nine Direct3D9.
 
 Packages
 --------
@@ -22,12 +21,11 @@ This is a list of packages and any associated notes:
 | Package								| Description								| Notes															|
 | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
 | [app-admin/eselect-wine](app-admin/eselect-wine)			| Manage active wine version						| Written by eroen, handles various multislot versions of Wine								|
-| [app-emulation/wine](app-emulation/wine)				| Free implementation of Windows(tm) on Unix				| Originally copied from Gentoo, dependency fixes, bug fixes, wine-staging support, and a functioning live ebuild	|
+| [app-emulation/wine](app-emulation/wine)				| Free implementation of Windows(tm) on Unix				| Based on the ebuilds from Gentoo, slotted										|
 | [app-emulation/wine-desktop-common](app-emulation/wine-desktop-common)| Various desktop menu items and icons for wine				| Forked from Tetromino's wine-gentoo tarball, originally from Ubuntu							|
-| [app-emulation/wine-staging](app-emulation/wine-staging)		| Free implementation of Windows(tm) on Unix				| Based on the ebuilds from the branches of wine-overlay, slotted wine, with wine-staging built-in			|
-| [app-emulation/wine-vanilla](app-emulation/wine-vanilla)		| Free implementation of Windows(tm) on Unix				| Based on the ebuilds from the branches of wine-overlay, slotted wine, all external patchsets disabled			|
-| [app-emulation/winetricks](app-emulation/winetricks)			| Easy way to install DLLs needed to work around problems in Wine	| Originally copied from Gentoo, version bump										|
-| [media-libs/mesa](media-libs/mesa)					| OpenGL-like graphic library for Linux					| Copied directly from the x11 overlay, live ebuild for those that want bleeding edge d3d9 support.			|
+| [app-emulation/wine-staging](app-emulation/wine-staging)		| Free implementation of Windows(tm) on Unix				| Based on the ebuilds from Gentoo, slotted, with wine-staging built-in			|
+| [app-emulation/wine-vanilla](app-emulation/wine-vanilla)		| Free implementation of Windows(tm) on Unix				| Based on the ebuilds from Gentoo, slotted, all external patchsets disabled			|
+| [media-libs/mesa](media-libs/mesa)					| OpenGL-like graphic library for Linux					| Copied from Gentoo, patched for those that want bleeding edge d3d9 support.			|
 
 
 Installation
@@ -35,12 +33,6 @@ Installation
 Layman
 ======
 Layman allows for the easy management of overlays.
-
-If you haven’t used layman yet, just run these commands:
-
-	# emerge -av layman
-	# echo "source /var/lib/layman/make.conf" >> /etc/make.conf
-	# layman -f
 
 Then you can add this overlay with:
 
