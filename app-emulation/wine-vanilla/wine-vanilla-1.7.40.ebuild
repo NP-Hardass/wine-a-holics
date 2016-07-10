@@ -1,1 +1,0 @@
-../wine/wine-1.7.40.ebuild
