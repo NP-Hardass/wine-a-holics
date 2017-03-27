@@ -31,5 +31,7 @@ RDEPEND="
 	|| (
 		app-emulation/wine-vanilla
 		app-emulation/wine-staging
+		app-emulation/wine-d3d9
 		app-emulation/wine-any
-	)"
+	)
+	!app-emulation/wine:0"
