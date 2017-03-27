@@ -379,6 +379,7 @@ src_prepare() {
 		"${FILESDIR}"/${MY_PN}-1.9.5-multilib-portage.patch #395615
 		"${FILESDIR}"/${MY_PN}-1.7.12-osmesa-check.patch #429386
 		"${FILESDIR}"/${MY_PN}-1.6-memset-O3.patch #480508
+		"${FILESDIR}"/${MY_PN}-2.0-multislot-apploader.patch
 	)
 	if use staging; then
 		ewarn "Applying the Wine-Staging patchset. Any bug reports to the"

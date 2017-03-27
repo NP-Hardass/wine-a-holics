@@ -329,6 +329,7 @@ src_prepare() {
 		"${FILESDIR}"/${MY_PN}-1.9.5-multilib-portage.patch #395615
 		"${FILESDIR}"/${MY_PN}-1.7.12-osmesa-check.patch #429386
 		"${FILESDIR}"/${MY_PN}-1.6-memset-O3.patch #480508
+		"${FILESDIR}"/${MY_PN}-2.0-multislot-apploader.patch
 	)
 	if use d3d9; then
 		PATCHES+=( "${D3D9_DIR}/d3d9-helper.patch" )
