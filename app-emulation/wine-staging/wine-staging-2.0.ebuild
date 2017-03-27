@@ -557,7 +557,7 @@ multilib_src_install_all() {
 	# Make wrappers for binaries for handling multiple variants
 	# Note: wrappers instead of symlinks because some are shell which use basename
 	for b in "${D%/}${MY_PREFIX}"/bin/*; do
-		make_wrapper ${b##*/}-${WINE_VARIANT} "${MY_PREFIX}"/bin/${b##*/}
+		dosym ${b} "${EPREFIX}"/usr/bin/${b##*/}-${WINE_VARIANT}
 	done
 
 	# respect LINGUAS when installing man pages, #469418
