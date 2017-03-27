@@ -20,12 +20,10 @@ DEPEND=""
 RDEPEND="
 	staging? ( || (
 		app-emulation/wine-staging[staging]
-		app-emulation/wine-d3d9[staging]
 		app-emulation/wine-any[staging]
 	) )
 	d3d9? ( || (
 		app-emulation/wine-d3d9[d3d9]
-		app-emulation/wine-staging[d3d9]
 		app-emulation/wine-any[d3d9]
 	) )
 	|| (
