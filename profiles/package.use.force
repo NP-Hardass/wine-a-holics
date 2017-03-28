@@ -2,10 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-# NP-Hardass <np.hardass@gmail.com> (22 Mar 2015)
-# The multislot use flags are required until 
-# merged into the main tree and all wine is slotted
-# All other use flags define a variant and should
+# NP-Hardass <NP-Hardass@gentoo.org> (27 Mar 2017)
+# All use flags define a variant and should
 # be edited with care.
-app-emulation/wine-staging multislot staging
-app-emulation/wine-vanilla multislot
+app-emulation/wine-staging staging
+app-emulation/wine-d3d9 d3d9 
