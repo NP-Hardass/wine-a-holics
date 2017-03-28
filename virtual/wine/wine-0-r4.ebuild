@@ -4,15 +4,11 @@
 EAPI=6
 
 DESCRIPTION="Virtual for WINE that supports multiple variants and slotting"
-HOMEPAGE=""
-SRC_URI=""
 
-LICENSE=""
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="staging d3d9"
 
-DEPEND=""
 # Note, the ordering here is intentional, to take advantage of the short-circuit
 # logic of portage, to enforce wine-vanilla as default for new users.  The idea
 # behind this is that some USE flags may pull in 3rd-party patchsets, so default
