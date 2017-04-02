@@ -24,10 +24,6 @@ else
 	S="${WORKDIR}/${MY_P}"
 fi
 
-VANILLA_GV="2.47"
-VANILLA_MV="4.6.4"
-STAGING_GV="2.47"
-STAGING_MV="4.6.4"
 STAGING_P="wine-staging-${PV}"
 STAGING_DIR="${WORKDIR}/${STAGING_P}"
 D3D9_P="wine-d3d9-${PV}"
@@ -38,21 +34,8 @@ WINE_DESKTOP_COMMON_P="wine-desktop-common-${WDC_V}"
 DESCRIPTION="Free implementation of Windows(tm) on Unix"
 HOMEPAGE="http://www.winehq.org/"
 SRC_URI="${SRC_URI}
-	!staging? (
-		gecko? (
-			abi_x86_32? ( https://dl.winehq.org/wine/wine-gecko/${VANILLA_GV}/wine_gecko-${VANILLA_GV}-x86.msi )
-			abi_x86_64? ( https://dl.winehq.org/wine/wine-gecko/${VANILLA_GV}/wine_gecko-${VANILLA_GV}-x86_64.msi )
-		)
-		mono? ( https://dl.winehq.org/wine/wine-mono/${VANILLA_MV}/wine-mono-${VANILLA_MV}.msi )
-	)
-	staging? (
-		gecko? (
-			abi_x86_32? ( https://dl.winehq.org/wine/wine-gecko/${STAGING_GV}/wine_gecko-${STAGING_GV}-x86.msi )
-			abi_x86_64? ( https://dl.winehq.org/wine/wine-gecko/${STAGING_GV}/wine_gecko-${STAGING_GV}-x86_64.msi )
-		)
-		mono? ( https://dl.winehq.org/wine/wine-mono/${STAGING_MV}/wine-mono-${STAGING_MV}.msi )
-	)
-	https://github.com/NP-Hardass/wine-desktop-common/archive/${WDC_V}.tar.gz -> ${WINE_DESKTOP_COMMON_P}.tar.gz"
+	https://github.com/NP-Hardass/wine-desktop-common/archive/${WDC_V}.tar.gz -> ${WINE_DESKTOP_COMMON_P}.tar.gz
+"
 
 if [[ ${PV} == "9999" ]] ; then
 	STAGING_EGIT_REPO_URI="git://github.com/wine-compholio/wine-staging.git"
@@ -163,6 +146,8 @@ RDEPEND="${COMMON_DEPEND}
 	>app-eselect/eselect-wine-0.3
 	!app-emulation/wine:0
 	dos? ( >=games-emulation/dosbox-0.74_p20160629 )
+	gecko? ( app-emulation/wine-gecko:2.47 )
+	mono? ( app-emulation/wine-mono:4.6.4 )
 	perl? (
 		dev-lang/perl
 		dev-perl/XML-Simple
@@ -323,13 +308,6 @@ pkg_pretend() {
 pkg_setup() {
 	wine_build_environment_check || die
 	wine_env_vcs_vars || die
-	if ! use staging; then
-		GV=${VANILLA_GV}
-		MV=${VANILLA_MV}
-	else
-		GV=${STAGING_GV}
-		MV=${STAGING_MV}
-	fi
 
 	WINE_VARIANT="${PN#wine}-${PV}"
 	WINE_VARIANT="${WINE_VARIANT#-}"
@@ -544,15 +522,6 @@ multilib_src_install_all() {
 	einstalldocs
 	prune_libtool_files --all
 
-	if use gecko ; then
-		insinto "${MY_DATADIR}/wine/gecko"
-		use abi_x86_32 && doins "${DISTDIR}"/wine_gecko-${GV}-x86.msi
-		use abi_x86_64 && doins "${DISTDIR}"/wine_gecko-${GV}-x86_64.msi
-	fi
-	if use mono ; then
-		insinto "${MY_DATADIR}/wine/mono"
-		doins "${DISTDIR}"/wine-mono-${MV}.msi
-	fi
 	if ! use perl ; then # winedump calls function_grep.pl, and winemaker is a perl script
 		rm "${D%/}${MY_PREFIX}"/bin/{wine{dump,maker},function_grep.pl} \
 			"${D%/}${MY_MANDIR}"/man1/wine{dump,maker}.1 || die
