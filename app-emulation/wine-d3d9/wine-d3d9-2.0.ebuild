@@ -21,8 +21,8 @@ else
 	MAJOR_V=$(get_version_component_range 1)
 	SRC_URI="https://dl.winehq.org/wine/source/${MAJOR_V}.x/${MY_P}.tar.bz2"
 	KEYWORDS="-* ~amd64 ~x86 ~x86-fbsd"
-	S="${WORKDIR}/${MY_P}"
 fi
+S="${WORKDIR}/${MY_P}"
 
 D3D9_P="wine-d3d9-${PV}"
 D3D9_DIR="${WORKDIR}/wine-d3d9-patches-${D3D9_P}"
@@ -304,7 +304,7 @@ pkg_setup() {
 
 src_unpack() {
 	if [[ ${PV} == "9999" ]] ; then
-		EGIT_COMMIT="${WINE_COMMIT}" git-r3_src_unpack
+		EGIT_CHECKOUT_DIR="${S}" EGIT_COMMIT="${WINE_COMMIT}" git-r3_src_unpack
 		if use d3d9; then
 			git-r3_fetch "${D3D9_EGIT_REPO_URI}" "${D3D9_COMMIT}"
 			git-r3_checkout "${D3D9_EGIT_REPO_URI}" "${D3D9_DIR}"

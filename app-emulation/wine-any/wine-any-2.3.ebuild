@@ -21,8 +21,8 @@ else
 	MAJOR_V=$(get_version_component_range 1)
 	SRC_URI="https://dl.winehq.org/wine/source/${MAJOR_V}.x/${MY_P}.tar.xz"
 	KEYWORDS="-* ~amd64 ~x86 ~x86-fbsd"
-	S="${WORKDIR}/${MY_P}"
 fi
+S="${WORKDIR}/${MY_P}"
 
 STAGING_P="wine-staging-${PV}"
 STAGING_DIR="${WORKDIR}/${STAGING_P}"
@@ -324,7 +324,7 @@ pkg_setup() {
 
 src_unpack() {
 	if [[ ${PV} == "9999" ]] ; then
-		EGIT_COMMIT="${WINE_COMMIT}" git-r3_src_unpack
+		EGIT_CHECKOUT_DIR="${S}" EGIT_COMMIT="${WINE_COMMIT}" git-r3_src_unpack
 		if use staging; then
 			local CURRENT_WINE_COMMIT=${EGIT_VERSION}
 
