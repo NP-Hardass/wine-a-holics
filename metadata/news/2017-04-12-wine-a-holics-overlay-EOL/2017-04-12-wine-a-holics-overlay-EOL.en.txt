@@ -1,0 +1,13 @@
+Title: wine-a-holics overlay End of Life
+Author: NP-Hardass <NP-Hardass@gentoo.org>
+Content-Type: text/plain
+Posted: 2017-04-12
+Revision: 1
+News-Item-Format: 1.0
+
+With the inclusion of all packages from this repository into the main
+Gentoo repository, this repository no longer has a purpose and will be
+removed.
+
+This is official notice of the repository being end of life and its
+imminent removal.
