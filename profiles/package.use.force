@@ -1,9 +1,0 @@
-# Copyright 1999-2015 Gentoo Foundation
-# Distributed under the terms of the GNU General Public License v2
-# $Header: $
-
-# NP-Hardass <NP-Hardass@gentoo.org> (27 Mar 2017)
-# All use flags define a variant and should
-# be edited with care.
-app-emulation/wine-staging staging
-app-emulation/wine-d3d9 d3d9 
